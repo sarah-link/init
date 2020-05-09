@@ -34,7 +34,7 @@ function App() {
             <Header />
             <div className="App-body">
                 <h1>
-                    <b>init</b>
+                    <b>rollinit</b>
                 </h1>
 
                 <h4>
