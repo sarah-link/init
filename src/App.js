@@ -1,20 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
-class HamburgerMenu extends React.Component {
-    render() {
-        return (
-            <div></div>
-        )
-    }
-}
 
 function Header() {
     return(
         <header className={"app-header"} >
-            <Button text={"Sign Up"} className={"header-button"} />
-            <Button text={"Log In"} className={"header-button"} />
+            <div>
+                <Button text={"Sign Up"} className={"header-button"} />
+                <Button text={"Log In"} className={"header-button"} />
+            </div>
+            <SideNav />
+
         </header>
     )
 }
@@ -27,6 +22,41 @@ function Button(props) {
     )
 }
 
+function IconButton(props) {
+    return (
+            <svg className="bi bi-chevron-right" width="32" height="32" viewBox="0 0 20 20" fill="currentColor" onClick={props.onClick}
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M6.646 3.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L12.293 10 6.646 4.354a.5.5 0 010-.708z"
+                      clip-rule="evenodd"/>
+            </svg>
+    )
+}
+
+class SideNav extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {isOpen: false}
+    }
+    toggleSidebar() {
+        console.log("hek")
+        if (this.state.isOpen == true) {
+            document.getElementById("mySidenav").style.width = "0";
+        } else {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+        this.setState({isOpen: !this.state.isOpen})
+    }
+    render() {
+        return (
+            <div>
+                <IconButton className={"header-button"} onClick={() => this.toggleSidebar()} />
+                <div id={"mySidenav"}> henlo! </div>
+            </div>
+
+        )
+    }
+}
 
 function App() {
     return (
@@ -47,5 +77,7 @@ function App() {
         </div>
     );
 }
+
+
 
 export default App;
