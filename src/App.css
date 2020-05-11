@@ -55,10 +55,6 @@
   box-shadow: 0px 2px 8px rgba(0,0,0,0.18)
 }
 
-#mySidenav {
-  background-color: #102A43;
-}
-
 .main-button {
   text-transform: capitalize;
   text-decoration: none;
@@ -70,7 +66,7 @@
   background-color: #27AB83;
   /*background-color: #147D64;*/
   margin-bottom: 0.5em;
-  width: 10em;
+  width: 12em;
   /*background-color: #61dafb;*/
 
   box-shadow: 0px 2px 8px rgba(0,0,0,0.18)
@@ -78,6 +74,8 @@
 
 .main-button:hover {
   background-color: #0C6B58;
+  color: white;
+  text-decoration: none;
 }
 
 .header-button {
@@ -93,8 +91,28 @@
   margin-right: 0.25em;
 }
 
-.menu-button {
+#menu-button {
+  z-index: 10;
+  position: fixed;
+  left: 0px;
 
+  transition: left 0.15s;
+  transition-delay: 0.02s;
+  transition-timing-function: linear;
+}
+
+#mySidenav {
+  /* background-color: #102A43; */
+  background-color:grey;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 450px;
+  left: -450px;
+  z-index: 5;
+
+  transition: left 0.2s;
+  transition-timing-function: ease-out;
 }
 
 .header-button:hover {

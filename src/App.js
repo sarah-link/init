@@ -24,7 +24,7 @@ function Button(props) {
 
 function IconButton(props) {
     return (
-            <svg className="bi bi-chevron-right" width="32" height="32" viewBox="0 0 20 20" fill="currentColor" onClick={props.onClick}
+            <svg id="menu-button" width="32" height="32" viewBox="0 0 20 20" fill="black" onClick={props.onClick}
                  xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                       d="M6.646 3.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L12.293 10 6.646 4.354a.5.5 0 010-.708z"
@@ -41,17 +41,19 @@ class SideNav extends React.Component {
     toggleSidebar() {
         console.log("hek")
         if (this.state.isOpen == true) {
-            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("mySidenav").style.left = "0px";
+            document.getElementById("menu-button").style.left = "410px";
         } else {
-            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("mySidenav").style.left = "-450px";
+            document.getElementById("menu-button").style.left = "0px";
+
         }
         this.setState({isOpen: !this.state.isOpen})
     }
     render() {
         return (
-            <div>
+            <div id={"mySidenav"}>
                 <IconButton className={"header-button"} onClick={() => this.toggleSidebar()} />
-                <div id={"mySidenav"}> henlo! </div>
             </div>
 
         )
