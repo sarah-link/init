@@ -43,13 +43,15 @@ class SideNav extends React.Component {
         if (this.state.isOpen == true) {
             document.getElementById("mySidenav").style.left = "0px";
             document.getElementById("mySidenav").style.boxShadow = "0px 0px 50px rgba(0,0,0,0.5)";
-            document.getElementById("menu-button").style.left = "410px";
+            document.getElementById("menu-button").style.left = "405px";
             document.getElementById("menu-button").style.fill = "#EFFCF6";
+            document.getElementById("menu-button").style.transform = "rotate(180deg)";
         } else {
             document.getElementById("mySidenav").style.left = "-450px";
             document.getElementById("mySidenav").style.boxShadow = "0px 0px 20px rgba(0,0,0,0)";
-            document.getElementById("menu-button").style.left = "0px";
+            document.getElementById("menu-button").style.left = "5px";
             document.getElementById("menu-button").style.fill = "#147D64";
+            document.getElementById("menu-button").style.transform = "rotate(0deg)";
         }
         this.setState({isOpen: !this.state.isOpen})
     }
