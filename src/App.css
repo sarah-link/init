@@ -20,6 +20,7 @@
 .App-body {
   margin-top: calc(20px + 4vh);
   background-color: #F7F7F7;
+  padding-top: 5em;
   min-height: 100vh;
   width: 1200px;
   display: flex;
@@ -37,7 +38,11 @@
 
 .App-body h1 {
   font-size: calc(15px + 5vmin);
-  margin-bottom: 0em;
+  margin-bottom: 0.2em;
+}
+
+.App-body h4 {
+  margin-bottom: 2em;
 }
 
 .app-header {
