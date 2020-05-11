@@ -5,10 +5,13 @@ function NavBar() {
     return(
         <header className={"app-navbar"} >
             <div>
-                <Button text={"Sign Up"} className={"navbar-button"} />
-                <Button text={"Log In"} className={"navbar-button"} />
+                <SideNav />
+                {/* <a id="title-link" href="index.html">rollinit</a> */}
             </div>
-            <SideNav />
+            <div>
+                <Button text={"Log In"} className={"navbar-button"} />
+                <Button text={"Sign Up"} className={"navbar-button"} />
+            </div>
 
         </header>
     )
@@ -72,7 +75,7 @@ function App() {
             <div className="App-body">
                 <div className="App-header">
                     <h1>
-                        <b>rollinit</b>
+                        <b>Roll Initiative!</b>
                     </h1>
 
                     <h4>
