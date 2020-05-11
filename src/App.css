@@ -24,7 +24,7 @@
 
 .App-header {
   background-color: #27AB83;
-  /* background-color: #65D6AD; */
+  background-image: linear-gradient(140deg, #cce66d, #6dbb86, #27AB83);
   width: 100%;
   padding: 3em;
   margin-bottom: 3em;
