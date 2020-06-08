@@ -17,11 +17,17 @@ function NavBar() {
     )
 }
 
+function MainButtons() {
+    return (
+        <MainButtonDiv />
+    )
+}
+
 function Button(props) {
     return(
-        <a className={props.className} href="/">
+        <button className={props.className} onClick={props.onClick}>
             {props.text}
-        </a>
+        </button>
     )
 }
 
@@ -68,6 +74,35 @@ class SideNav extends React.Component {
     }
 }
 
+class MainButtonDiv extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {isOpen: true}
+    }
+    startEncounter() {
+        document.getElementById("menuButtons").style.display = "none";
+    //    actually have encounter screen show
+    }
+    toggleMenu() {
+        if (this.state.isOpen == true) {
+            document.getElementById("menuButtons").style.display = "none";
+        } else {
+            document.getElementById("menuButtons").style.display = "inline";
+        }
+        this.setState({isOpen: !this.state.isOpen})
+    }
+    render() {
+        return (
+            <div id={"menuButtons"} >
+                <Button text={"Create Encounter"} className={"main-button"} onClick={() => this.startEncounter()} />
+                <Button text={"Manage Library"} className={"main-button"} onClick={() => this.toggleMenu()} />
+                <Button text={"Join Encounter"} className={"main-button"} onClick={() => this.toggleMenu()} />
+            </div>
+
+        )
+    }
+}
+
 function App() {
     return (
         <div className="App">
@@ -82,10 +117,8 @@ function App() {
                         A better way to roll initiative or something idk
                     </h4>
                 </div>
+                <MainButtons />
 
-                <Button text={"CREATE ENCOUNTER"} className={"main-button"} />
-                <Button text={"MANAGE LIBRARY"} className={"main-button"} />
-                <Button text={"JOIN ENCOUNTER"} className={"main-button"} />
             </div>
         </div>
     );
