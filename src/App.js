@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
 
 function NavBar() {
@@ -85,9 +86,10 @@ class MainButtonDiv extends React.Component {
     }
     toggleMenu() {
         if (this.state.isOpen == true) {
-            document.getElementById("menuButtons").style.display = "none";
+            ReactDOM.unmountComponentAtNode(document.getElementById('menuButtons'));
         } else {
-            document.getElementById("menuButtons").style.display = "inline";
+            ReactDOM.render( document.getElementById("menuButtons"))
+            // document.getElementById("menuButtons").style.display = "inline";
         }
         this.setState({isOpen: !this.state.isOpen})
     }
