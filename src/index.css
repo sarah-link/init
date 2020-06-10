@@ -19,3 +19,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#creature-list {
+  /*idk I'm not a css person*/
+  float: left;
+  list-style-type: none;
+  padding: 1em;
+  position: fixed;
+  left: 5px;
+  background-color: #27AB83;
+}
+
+li {
+  padding: .2em;
+}

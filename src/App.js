@@ -32,6 +32,12 @@ function Button(props) {
     )
 }
 
+function Encouter() {
+    return (
+        <EncounterDiv />
+    )
+}
+
 function IconButton(props) {
     return (
             <svg id="menu-button" width="40" height="40" viewBox="0 0 20 20" onClick={props.onClick}
@@ -81,35 +87,62 @@ class MainButtonDiv extends React.Component {
         this.state = {isOpen: true}
     }
     startEncounter() {
-        document.getElementById("menuButtons").style.display = "none";
-    //    actually have encounter screen show
+        ReactDOM.unmountComponentAtNode(document.getElementById('menuButtons'));
+        ReactDOM.render(<EncounterDiv />, document.getElementById('body'))
     }
-    toggleMenu() {
-        if (this.state.isOpen == true) {
-            ReactDOM.unmountComponentAtNode(document.getElementById('menuButtons'));
-        } else {
-            ReactDOM.render( document.getElementById("menuButtons"))
-            // document.getElementById("menuButtons").style.display = "inline";
-        }
-        this.setState({isOpen: !this.state.isOpen})
-    }
+
     render() {
         return (
             <div id={"menuButtons"} >
                 <Button text={"Create Encounter"} className={"main-button"} onClick={() => this.startEncounter()} />
-                <Button text={"Manage Library"} className={"main-button"} onClick={() => this.toggleMenu()} />
-                <Button text={"Join Encounter"} className={"main-button"} onClick={() => this.toggleMenu()} />
+                <Button text={"Manage Library"} className={"main-button"}/>
+                <Button text={"Join Encounter"} className={"main-button"}/>
             </div>
 
         )
     }
 }
 
+class EncounterDiv extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div>
+                < EncounterCreatures />
+            </div>
+        )
+    }
+}
+
+class EncounterCreatures extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div id={"creature-list"}>
+                <Creature name={"Goblin"} />
+                <Creature name={"Goblin Boss"} />
+                <Creature name={"Dragon"} />
+                <Creature name={"Elf"} />
+                <Creature name={"Very Large Bird"} />
+            </div>
+        )
+    }
+}
+
+//will need to replace this with actual data
+function Creature(props) {
+    return <li class={"creature"}> {props.name}</li>;
+}
+
 function App() {
     return (
         <div className="App">
             <NavBar />
-            <div className="App-body">
+            <div className="App-body" id="body">
                 <div className="App-header">
                     <h1>
                         <b>Roll Initiative!</b>
@@ -125,7 +158,5 @@ function App() {
         </div>
     );
 }
-
-
 
 export default App;
