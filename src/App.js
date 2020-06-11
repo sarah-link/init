@@ -42,12 +42,6 @@ function Button(props) {
     )
 }
 
-function Encouter() {
-    return (
-        <EncounterDiv />
-    )
-}
-
 function IconButton(props) {
     return (
             <svg id="menu-button" width="40" height="40" viewBox="0 0 20 20" onClick={props.onClick}
@@ -66,7 +60,7 @@ class SideNav extends React.Component {
     }
     toggleSidebar() {
         console.log("hek")
-        if (this.state.isOpen == true) {
+        if (this.state.isOpen === true) {
             document.getElementById("mySidenav").style.left = "0px";
             document.getElementById("mySidenav").style.boxShadow = "0px 0px 50px rgba(0,0,0,0.5)";
             document.getElementById("menu-button").style.left = "405px";
@@ -96,10 +90,6 @@ class MainButtonDiv extends React.Component {
         super(props);
         this.state = {isOpen: true}
     }
-    startEncounter() {
-        ReactDOM.unmountComponentAtNode(document.getElementById('menuButtons'));
-        ReactDOM.render(<EncounterDiv />, document.getElementById('body'))
-    }
 
     render() {
         return (
@@ -113,19 +103,6 @@ class MainButtonDiv extends React.Component {
     }
 }
 
-class EncounterDiv extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div>
-                < EncounterCreatures />
-            </div>
-        )
-    }
-}
-
 class EncounterCreatures extends React.Component {
     constructor(props) {
         super(props);
@@ -135,9 +112,27 @@ class EncounterCreatures extends React.Component {
             <div id={"creature-list"}>
                 <Creature name={"Goblin"} />
                 <Creature name={"Goblin Boss"} />
-                <Creature name={"Dragon"} />
-                <Creature name={"Elf"} />
+                <Creature name={"Young Red Dragon"} />
+                <Creature name={"Gnoll"} />
+                <Creature name={"Orc"} />
+                <Creature name={"Gelatinous Cube"} />
+                <Creature name={"Black Pudding"} />
+                <Creature name={"Ochre Jelly"} />
+                <Creature name={"Yuan-ti"} />
+                <Creature name={"Yuan-ti Pureblood"} />
+                <Creature name={"Beholder"} />
+                <Creature name={"Mindflayer"} />
+                <Creature name={"Elf Battlemaster"} />
                 <Creature name={"Very Large Bird"} />
+                <Creature name={"Very Small Bird"} />
+                <Creature name={"Normal Bird"} />
+                <Creature name={"Dwarf Pikeman"} />
+                <Creature name={"Dwarf Archer"} />
+                <Creature name={"Human Soldier"} />
+                <Creature name={"Human Wizard"} />
+                <Creature name={"Young Green Dragon"} />
+                <Creature name={"Adult Green Dragon"} />
+                <Creature name={"Ancient Green Dragon"} />
             </div>
         )
     }
@@ -150,7 +145,7 @@ function Creature(props) {
 
 function Home(props) {
     return (
-        <div className="App-body" id="body">
+        <div className="App-body" id="home-body">
             <div className="App-header">
                 <h1>
                     <b>Roll Initiative!</b>
@@ -166,15 +161,40 @@ function Home(props) {
     )
 }
 
+class EncounterBuilder extends React.Component {
+    render() {
+        return(
+            <Router>
+                <EncounterCreatures />
+
+                <div className="App-body" id="encounter-body">
+                    <h1>
+                        Add Creatures to Encounter
+                    </h1>
+                </div>
+            </Router>
+        )
+    }
+}
+
 function App() {
     return (
         <Router>
             <div className="App">
             <NavBar />
 
-                <Switch>
-                    <Route path="/builder">
+                <Switch>    {/* overlays and popups} */}
+                    <Route path="/login">
+                    
+                    </Route>
+                    <Route path="/signup">
+                
+                    </Route>
+                </Switch>
 
+                <Switch>    {/* main content */}
+                    <Route path="/builder">
+                        <EncounterBuilder />
                     </Route>
                     <Route path="/library">
                 
@@ -182,13 +202,7 @@ function App() {
                     <Route path="/join">
                 
                     </Route>
-                    <Route path="/login">
-                
-                    </Route>
-                    <Route path="/signup">
-                
-                    </Route>
-                    <Route path="/">
+                    <Route exact path="/">
                         <Home />
                     </Route>
                 </Switch>
