@@ -1,17 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 function NavBar() {
     return(
         <header className={"app-navbar"} >
             <div>
                 <SideNav />
-                {/* <a id="title-link" href="index.html">rollinit</a> */}
+                <Button text={"HOME"} className={"navbar-button"} url={"/"} />
             </div>
             <div>
-                <Button text={"Log In"} className={"navbar-button"} />
-                <Button text={"Sign Up"} className={"navbar-button"} />
+                <Button text={"Log\u00a0In"} className={"navbar-button"} url={"login"} />
+                <Button text={"Sign\u00a0Up"} className={"navbar-button"} url={"signup"} />
             </div>
 
         </header>
@@ -26,9 +32,13 @@ function MainButtons() {
 
 function Button(props) {
     return(
-        <button className={props.className} onClick={props.onClick}>
+        // <button className={props.className} onClick={props.onClick}>
+        //     {props.text}
+        // </button>
+
+        <Link to={props.url} className={props.className}>
             {props.text}
-        </button>
+        </Link>
     )
 }
 
@@ -94,9 +104,9 @@ class MainButtonDiv extends React.Component {
     render() {
         return (
             <div id={"menuButtons"} >
-                <Button text={"Create Encounter"} className={"main-button"} onClick={() => this.startEncounter()} />
-                <Button text={"Manage Library"} className={"main-button"}/>
-                <Button text={"Join Encounter"} className={"main-button"}/>
+                <Button text={"Create Encounter"} className={"main-button"} url={"/builder"} />
+                <Button text={"Manage Library"} className={"main-button"} url={"/library"} />
+                <Button text={"Join Encounter"} className={"main-button"} url={"/join"} />
             </div>
 
         )
@@ -138,24 +148,53 @@ function Creature(props) {
     return <li class={"creature"}> {props.name}</li>;
 }
 
+function Home(props) {
+    return (
+        <div className="App-body" id="body">
+            <div className="App-header">
+                <h1>
+                    <b>Roll Initiative!</b>
+                </h1>
+
+                <h4>
+                    A better way to roll initiative or something idk
+                </h4>
+            </div>
+
+            <MainButtons />
+        </div>
+    )
+}
+
 function App() {
     return (
-        <div className="App">
+        <Router>
+            <div className="App">
             <NavBar />
-            <div className="App-body" id="body">
-                <div className="App-header">
-                    <h1>
-                        <b>Roll Initiative!</b>
-                    </h1>
 
-                    <h4>
-                        A better way to roll initiative or something idk
-                    </h4>
-                </div>
-                <MainButtons />
+                <Switch>
+                    <Route path="/builder">
+
+                    </Route>
+                    <Route path="/library">
+                
+                    </Route>
+                    <Route path="/join">
+                
+                    </Route>
+                    <Route path="/login">
+                
+                    </Route>
+                    <Route path="/signup">
+                
+                    </Route>
+                    <Route path="/">
+                        <Home />
+                    </Route>
+                </Switch>
 
             </div>
-        </div>
+        </Router>
     );
 }
 
