@@ -64,13 +64,13 @@ class SideNav extends React.Component {
     render() {
         if (this.state.isOpen === true) {
             return (
-                <div className={"sidenav"} id={"sidenav-expanded"}>
+                <div className={"sidenav"} id={"sidenav-expanded"} tabIndex="0" onBlur={() => this.toggleSidebar()}>
                     <IconButton className={"navbar-button"} onClick={() => this.toggleSidebar()} />
                 </div>
             )
         }
         return (
-            <div className={"sidenav"} id={"sidenav-collapsed"}>
+            <div className={"sidenav"} id={"sidenav-collapsed"} tabIndex="0" onBlur={() => this.toggleSidebar()}>
                 <IconButton className={"navbar-button"} onClick={() => this.toggleSidebar()} />
             </div>
         )
@@ -169,39 +169,48 @@ class EncounterBuilder extends React.Component {
     }
 }
 
-function App() {
-    return (
-        <Router>
-            <div className="App">
-            <NavBar />
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    handleClick() {
 
-                <Switch>    {/* overlays and popups} */}
-                    <Route path="/login">
+    }
+
+    render() {
+        return (
+            <Router>
+                <div className="App" onClick={this.handleClick}>
+                <NavBar />
+
+                    <Switch>    {/* overlays and popups} */}
+                        <Route path="/login">
+                        
+                        </Route>
+                        <Route path="/signup">
                     
-                    </Route>
-                    <Route path="/signup">
-                
-                    </Route>
-                </Switch>
+                        </Route>
+                    </Switch>
 
-                <Switch>    {/* main content */}
-                    <Route path="/builder">
-                        <EncounterBuilder />
-                    </Route>
-                    <Route path="/library">
-                
-                    </Route>
-                    <Route path="/join">
-                
-                    </Route>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                </Switch>
+                    <Switch>    {/* main content */}
+                        <Route path="/builder">
+                            <EncounterBuilder />
+                        </Route>
+                        <Route path="/library">
+                    
+                        </Route>
+                        <Route path="/join">
+                    
+                        </Route>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+                    </Switch>
 
-            </div>
-        </Router>
-    );
+                </div>
+            </Router>
+        );
+    }
 }
 
 export default App;
