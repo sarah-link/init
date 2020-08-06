@@ -7,12 +7,13 @@ import {
     Route,
     Link
   } from "react-router-dom";
+import onClickOutside from "react-onclickoutside";
 
 function NavBar() {
     return(
         <header className={"app-navbar"} >
             <div>
-                <SideNav />
+                <SideNavClickable />
                 <Button text={"HOME"} className={"navbar-button"} url={"/"} />
             </div>
             <div>
@@ -58,24 +59,29 @@ class SideNav extends React.Component {
         super(props);
         this.state = {isOpen: false}
     }
+    handleClickOutside = () => {
+        this.setState({isOpen: false})
+    };
     toggleSidebar() {
         this.setState({isOpen: !this.state.isOpen})
     }
     render() {
         if (this.state.isOpen === true) {
             return (
-                <div className={"sidenav"} id={"sidenav-expanded"} tabIndex="0" onBlur={() => this.toggleSidebar()}>
+                <div className={"sidenav"} id={"sidenav-expanded"}>
                     <IconButton className={"navbar-button"} onClick={() => this.toggleSidebar()} />
                 </div>
             )
         }
         return (
-            <div className={"sidenav"} id={"sidenav-collapsed"} tabIndex="0" onBlur={() => this.toggleSidebar()}>
+            <div className={"sidenav"} id={"sidenav-collapsed"}>
                 <IconButton className={"navbar-button"} onClick={() => this.toggleSidebar()} />
             </div>
         )
     }
 }
+
+var SideNavClickable = onClickOutside(SideNav);
 
 class MainButtonDiv extends React.Component {
     constructor(props) {

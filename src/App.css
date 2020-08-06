@@ -159,7 +159,7 @@
 
 #sidenav-expanded.sidenav {
   left: 0px;
-  box-shadow: 0px 0px 50px rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 50px rgba(0,0,0,0.7);
 }
 
 #menu-button {
@@ -206,5 +206,9 @@
   /* margin-bottom: 0.3em; */
   background-color: rgb(246, 255, 251);
   border-bottom: 2px solid #147D64;
-  
+}
+
+#creature-list li:hover {
+  background-color: rgb(153, 221, 190);
+  cursor: grab;
 }
