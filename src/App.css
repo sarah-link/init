@@ -124,18 +124,6 @@
   text-decoration: none;
 }
 
-#menu-button {
-  z-index: 10;
-  position: fixed;
-  left: 5px;
-  fill: #147D64;
-  margin-top: 5px;
-
-  transition: left 0.15s;
-  transition-delay: 0.02s;
-  transition-timing-function: linear;
-}
-
 #title-link {
   display: inline-block;
   margin-left: 60px;
@@ -151,18 +139,51 @@
   color: #014D40;
 }
 
-#mySidenav {
+.sidenav {
   /* background-color: #102A43; */
   background-color:#014D40;
   position: fixed;
   top: 0;
   height: 100vh;
   width: 450px;
-  left: -450px;
   z-index: 5;
 
   transition: left 0.2s;
   transition-timing-function: ease-out;
+}
+
+#sidenav-collapsed.sidenav {
+  left: -450px;
+  box-shadow: 0px 0px 0px rgba(0,0,0,0);
+}
+
+#sidenav-expanded.sidenav {
+  left: 0px;
+  box-shadow: 0px 0px 50px rgba(0,0,0,0.5);
+}
+
+#menu-button {
+  z-index: 10;
+  position: fixed;
+  left: 5px;
+  margin-top: 5px;
+
+  transition: left 0.15s;
+  transition: transform 0.05s;
+  transition-delay: 0.02s;
+  transition-timing-function: linear;
+}
+
+#sidenav-expanded #menu-button {
+  fill: #EFFCF6;
+  /* rotate: -180deg; */
+  transform: scaleX(-1);
+}
+
+#sidenav-collapsed #menu-button {
+  fill: #147D64;
+  /* rotate: 0deg; */
+  transform: scaleX(1);
 }
 
 #creature-list {

@@ -46,9 +46,9 @@ function IconButton(props) {
     return (
             <svg id="menu-button" width="40" height="40" viewBox="0 0 20 20" onClick={props.onClick}
                  xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
+                <path fillRule="evenodd"
                       d="M6.646 3.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L12.293 10 6.646 4.354a.5.5 0 010-.708z"
-                      clip-rule="evenodd"/>
+                      clipRule="evenodd"/>
             </svg>
     )
 }
@@ -59,28 +59,20 @@ class SideNav extends React.Component {
         this.state = {isOpen: false}
     }
     toggleSidebar() {
-        console.log("hek")
-        if (this.state.isOpen === true) {
-            document.getElementById("mySidenav").style.left = "0px";
-            document.getElementById("mySidenav").style.boxShadow = "0px 0px 50px rgba(0,0,0,0.5)";
-            document.getElementById("menu-button").style.left = "405px";
-            document.getElementById("menu-button").style.fill = "#EFFCF6";
-            document.getElementById("menu-button").style.transform = "rotate(180deg)";
-        } else {
-            document.getElementById("mySidenav").style.left = "-450px";
-            document.getElementById("mySidenav").style.boxShadow = "0px 0px 20px rgba(0,0,0,0)";
-            document.getElementById("menu-button").style.left = "5px";
-            document.getElementById("menu-button").style.fill = "#147D64";
-            document.getElementById("menu-button").style.transform = "rotate(0deg)";
-        }
         this.setState({isOpen: !this.state.isOpen})
     }
     render() {
+        if (this.state.isOpen === true) {
+            return (
+                <div className={"sidenav"} id={"sidenav-expanded"}>
+                    <IconButton className={"navbar-button"} onClick={() => this.toggleSidebar()} />
+                </div>
+            )
+        }
         return (
-            <div id={"mySidenav"}>
+            <div className={"sidenav"} id={"sidenav-collapsed"}>
                 <IconButton className={"navbar-button"} onClick={() => this.toggleSidebar()} />
             </div>
-
         )
     }
 }
