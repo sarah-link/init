@@ -101,7 +101,7 @@ class MainButtonDiv extends React.Component {
     }
 }
 
-class EncounterCreatures extends React.Component {
+class EncounterCreaturesList extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -138,7 +138,47 @@ class EncounterCreatures extends React.Component {
 
 //will need to replace this with actual data
 function Creature(props) {
-    return <li class={"creature"}> {props.name}</li>;
+    return (
+        <li class={"creature"}> {props.name}
+            <button onClick={() => alert('click')}>+</button>
+        </li>
+    );
+}
+
+
+
+class Encounter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            creatures: ["Gnoll", "Orc"]
+        }
+    }
+
+    addCreature = (event) => {
+        event.stopPropagation();
+        this.setState(prevState => {
+            return {
+                creatures: prevState.creatures + "Hello"
+            }
+        })
+    }
+}
+
+class EncounterBuilder extends React.Component {
+    render() {
+        return(
+            <Router>
+                <EncounterCreaturesList />
+
+                <div className="App-body" id="encounter-body">
+                    <h1>
+                        Add Creatures to Encounter
+                    </h1>
+                </div>
+            </Router>
+        )
+    }
 }
 
 function Home(props) {
@@ -157,22 +197,6 @@ function Home(props) {
             <MainButtons />
         </div>
     )
-}
-
-class EncounterBuilder extends React.Component {
-    render() {
-        return(
-            <Router>
-                <EncounterCreatures />
-
-                <div className="App-body" id="encounter-body">
-                    <h1>
-                        Add Creatures to Encounter
-                    </h1>
-                </div>
-            </Router>
-        )
-    }
 }
 
 class App extends React.Component {
