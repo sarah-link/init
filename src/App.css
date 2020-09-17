@@ -188,8 +188,8 @@
   float: left;
   list-style-type: none;
   padding: 2px 0.75em 20px 0.75em;
-  /* position: fixed; */
-  /* left: 5px; */
+   position: fixed;
+   left: 5px;
   margin-right: 50px;
   height: calc(100vh - 60px);
   background-color: #27AB83;
@@ -211,4 +211,14 @@
 #creature-list li:hover {
   background-color: rgb(153, 221, 190);
   cursor: grab;
+}
+
+.added-creature {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
+  background: #c9d4d0;
 }

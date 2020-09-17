@@ -105,63 +105,142 @@ class EncounterCreaturesList extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
+        let itemList=[];
+        creatureList.forEach((item,index)=>{
+            itemList.push( <Creature name={item.name} desc={item.desc} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+        })
         return (
             <div id={"creature-list"}>
-                <Creature name={"Goblin"} />
-                <Creature name={"Goblin Boss"} />
-                <Creature name={"Young Red Dragon"} />
-                <Creature name={"Gnoll"} />
-                <Creature name={"Orc"} />
-                <Creature name={"Gelatinous Cube"} />
-                <Creature name={"Black Pudding"} />
-                <Creature name={"Ochre Jelly"} />
-                <Creature name={"Yuan-ti"} />
-                <Creature name={"Yuan-ti Pureblood"} />
-                <Creature name={"Beholder"} />
-                <Creature name={"Mindflayer"} />
-                <Creature name={"Elf Battlemaster"} />
-                <Creature name={"Very Large Bird"} />
-                <Creature name={"Very Small Bird"} />
-                <Creature name={"Normal Bird"} />
-                <Creature name={"Dwarf Pikeman"} />
-                <Creature name={"Dwarf Archer"} />
-                <Creature name={"Human Soldier"} />
-                <Creature name={"Human Wizard"} />
-                <Creature name={"Young Green Dragon"} />
-                <Creature name={"Adult Green Dragon"} />
-                <Creature name={"Ancient Green Dragon"} />
+                {itemList}
             </div>
         )
     }
 }
 
-//will need to replace this with actual data
-function Creature(props) {
-    return (
-        <li class={"creature"}> {props.name}
-            <button onClick={() => alert('click')}>+</button>
-        </li>
-    );
-}
-
-
+let toAddCreature = '';
+let id = 0;
+let creatureToRemoveId = "default";
 
 class Encounter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            creatures: ["Gnoll", "Orc"]
+            creatures: new Map()
+        };
+
+    }
+
+    render() {
+        // this.addedCreatures = this.state.creatures.map((item) =>
+        //     <AddedCreature id={id} name={item.name} desc={item.desc} HP={item.HP} CR={item.CR} removeCreature={this.removeCreature}/>)
+        // );
+
+
+
+        let addedCreatures = [];
+        if (this.state.creatures.size >= 0) {
+            for (let [key, value] of this.state.creatures.entries()) {
+                addedCreatures.push(
+                    <AddedCreature key={key} id={key} name={value.name} desc={value.desc} HP={value.HP} CR={value.CR} removeCreature={this.removeCreature}/>
+                );
+            };
+        }
+        console.log(this.state.creatures);
+
+        return(
+            <div>
+            <EncounterCreaturesList addCreature={this.addCreature}/>
+            <div id={"added-creatures"}>
+                {addedCreatures}
+            </div>
+            </div>
+        )
+    }
+
+    addCreature = () => {
+        this.setState({creatures: this.state.creatures.set(id, toAddCreature)});
+        console.log(this.state.creatures);
+        id++;
+    };
+
+    removeCreature = (creatureToRemoveId) => {
+        let tmpCreatures = this.state.creatures;
+        tmpCreatures.delete(creatureToRemoveId);
+        this.setState({creatures: tmpCreatures});
+    }
+}
+
+//will need to replace this with actual data
+class Creature extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        name: props.name,
+        desc: props.desc,
+        HP: props.HP,
+        CR: props.CR
         }
     }
 
-    addCreature = (event) => {
-        event.stopPropagation();
-        this.setState(prevState => {
-            return {
-                creatures: prevState.creatures + "Hello"
+    click = () => {
+        toAddCreature =
+            {
+                name: this.state.name,
+                desc: this.state.desc,
+                HP: this.state.HP,
+                CR: this.state.CR
             }
-        })
+        this.props.addCreature();
+    }
+
+    render() {
+        return (
+            <div className={"creature"} onClick={this.click}> {this.state.name}
+                <div className={"subdata"}>
+                    {this.state.desc}&nbsp;
+                    HP: {this.state.HP}&nbsp;
+                    CR: {this.state.CR}&nbsp;
+                </div>
+                <button>+</button>
+            </div>
+        );
+    }
+
+}
+
+class AddedCreature extends React.Component {
+    constructor(props) {
+        super(props);
+        this.id = props.id
+        this.name = props.name
+        this.desc = props.desc
+        this.HP = props.HP
+        this.CR = props.CR
+    }
+
+    click = () => {
+        creatureToRemoveId = this.id;
+        this.props.removeCreature(this.id);
+    }
+
+    removeFromEncounter = () => {
+        creatureToRemoveId = this.id;
+    }
+
+    render() {
+        return (
+            <div className={"creature"} className={"added-creature"}> {this.name}
+            <button onClick={this.click}>X</button>
+            <div className={"subdata"}>
+                    {this.id}
+                    {this.desc}&nbsp;
+                    HP: {this.HP}&nbsp;
+                    CR: {this.CR}&nbsp;
+                </div>
+            </div>
+        );
     }
 }
 
@@ -169,12 +248,12 @@ class EncounterBuilder extends React.Component {
     render() {
         return(
             <Router>
-                <EncounterCreaturesList />
 
                 <div className="App-body" id="encounter-body">
                     <h1>
                         Add Creatures to Encounter
                     </h1>
+                    <Encounter />
                 </div>
             </Router>
         )
@@ -242,5 +321,71 @@ class App extends React.Component {
         );
     }
 }
+
+//figure out how to move this into its own file later
+let creatureList =
+    [
+        {
+            "name": "Goblin",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Goblin Boss",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Young Red Dragon",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Young Red Dragon",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Gnoll",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Orc",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Gelatinous Cube",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Black Pudding",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Ochre Jelly",
+            "desc": "small goblinoid",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Very Small Bird",
+            "desc": "small bird",
+            "HP": "5",
+            "CR": "1"
+        }
+    ]
+
 
 export default App;
