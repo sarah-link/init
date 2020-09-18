@@ -153,6 +153,9 @@ class Encounter extends React.Component {
 
                     <div id={"added-creatures"}>
                         {addedCreatures}
+                        <div className={"added-creature"}>
+                            <div id={"creature-add-btn"}>+</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -230,14 +233,15 @@ class AddedCreature extends React.Component {
 
     render() {
         return (
-            <div className={"creature"} className={"added-creature"}> {this.name}
-            <button onClick={this.click}>X</button>
-            <div className={"subdata"}>
-                    {this.id}
-                    {this.desc}&nbsp;
-                    HP: {this.HP}&nbsp;
-                    CR: {this.CR}&nbsp;
-                </div>
+            <div className={"added-creature"}>
+                <span>
+                    <div className={"bubble"}> {this.CR} </div>
+                    <div className={"creature-name"}>
+                        <h4>{this.name}</h4>
+                        {this.desc}&nbsp;
+                    </div>
+                </span>
+                <button onClick={this.click}>x</button>
             </div>
         );
     }
