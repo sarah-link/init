@@ -150,11 +150,18 @@ class Encounter extends React.Component {
         console.log(this.state.creatures);
 
         return(
-            <div>
-            <EncounterCreaturesList addCreature={this.addCreature}/>
-            <div id={"added-creatures"}>
-                {addedCreatures}
-            </div>
+            <div id="encounter-wrapper">
+                <EncounterCreaturesList addCreature={this.addCreature}/>
+
+                <div id="encounter-list">
+                    <h1>
+                        Add Creatures to Encounter
+                    </h1>
+
+                    <div id={"added-creatures"}>
+                        {addedCreatures}
+                    </div>
+                </div>
             </div>
         )
     }
@@ -197,11 +204,14 @@ class Creature extends React.Component {
 
     render() {
         return (
-            <div className={"creature"} onClick={this.click}> {this.state.name}
+            <div className={"creature"} onClick={this.click}>
                 <div className={"subdata"}>
-                    {this.state.desc}&nbsp;
-                    HP: {this.state.HP}&nbsp;
-                    CR: {this.state.CR}&nbsp;
+                    {this.state.name}
+                    <p>
+                        {this.state.desc}&nbsp;
+                        HP: {this.state.HP}&nbsp;
+                        CR: {this.state.CR}&nbsp;
+                    </p>
                 </div>
                 <button>+</button>
             </div>
@@ -225,10 +235,6 @@ class AddedCreature extends React.Component {
         this.props.removeCreature(this.id);
     }
 
-    removeFromEncounter = () => {
-        creatureToRemoveId = this.id;
-    }
-
     render() {
         return (
             <div className={"creature"} className={"added-creature"}> {this.name}
@@ -248,11 +254,7 @@ class EncounterBuilder extends React.Component {
     render() {
         return(
             <Router>
-
                 <div className="App-body" id="encounter-body">
-                    <h1>
-                        Add Creatures to Encounter
-                    </h1>
                     <Encounter />
                 </div>
             </Router>

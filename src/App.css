@@ -23,7 +23,8 @@
   /* font-size: calc(10px + 0.5vmin); */
   font-size: 15px;
   border-bottom: 3px solid #147D64;
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.18)
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.18);
+  z-index: 100;
 }
 
 .App-header {
@@ -45,7 +46,7 @@
 
 .App-header h4 {
   font-size: calc(15px + 2vmin);
-  font-weight: 350;
+  font-weight: 300;
 }
 
 .App-body {
@@ -67,10 +68,25 @@
 }
 
 #encounter-body {
-  padding-top: 50px;
+  /*padding-top: 50px;*/
   align-items: center;
   /* text-align: left; */
-  width: 850px;
+  width: 1250px;
+}
+
+#encounter-list {
+  flex-grow: 2;
+  padding: 50px 50px 20px 50px;
+}
+
+#encounter-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  /*background-color: black;*/
+  height: 100%;
+  width: 100%;
 }
 
 .main-button {
@@ -185,15 +201,17 @@
 
 #creature-list {
   font-size:20px;
-  float: left;
   list-style-type: none;
-  padding: 2px 0.75em 20px 0.75em;
-   position: fixed;
-   left: 5px;
-  margin-right: 50px;
-  height: calc(100vh - 60px);
+  padding: 2px 0.25em 20px 0.25em;
+  /*position: fixed;*/
+  /*top: 60px;*/
+  /*left: 0px;*/
+  /*margin-right: 50px;*/
+  height: 100%;
   background-color: #27AB83;
   box-shadow: 0px 2px 8px rgba(0,0,0,0.18);
+  flex-grow: 1;
+  text-align: left;
 
   overflow-y: scroll;
   scrollbar-width: none; /* Firefox */
@@ -202,15 +220,23 @@
 
 #creature-list li {
   padding: .5em;
-  width: 13em;
-  /* margin-bottom: 0.3em; */
+  width: 100%;
   background-color: rgb(246, 255, 251);
   border-bottom: 2px solid #147D64;
 }
 
-#creature-list li:hover {
+.creature {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: .5em;
+  background-color: rgb(246, 255, 251);
+  border-bottom: 2px solid #147D64;
+}
+
+.creature:hover {
   background-color: rgb(153, 221, 190);
-  cursor: grab;
 }
 
 .added-creature {
