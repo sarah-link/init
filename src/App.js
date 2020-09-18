@@ -117,11 +117,14 @@ class EncounterCreaturesList extends React.Component {
             </div>
         )
     }
+
+    search() {
+        //sort the array for the search
+    }
 }
 
 let toAddCreature = '';
 let id = 0;
-let creatureToRemoveId = "default";
 
 class Encounter extends React.Component {
     constructor(props) {
@@ -138,13 +141,14 @@ class Encounter extends React.Component {
         if (this.state.creatures.size >= 0) {
             for (let [key, value] of this.state.creatures.entries()) {
                 addedCreatures.push(
-                    <AddedCreature key={key} id={key} name={value.name} desc={value.desc} HP={value.HP} CR={value.CR} removeCreature={this.removeCreature}/>
+                    <AddedCreature key={key} id={key} name={value.name} desc={value.desc} HP={value.HP} CR={value.CR}
+                                   removeCreature={this.removeCreature} moveCreatureUp={this.moveCreatureUp} moveCreatureDown={this.moveCreatureDown}/>
                 );
                 totalCR += parseInt(value.CR);
-            };
+            }
         }
 
-        return(
+        return (
             <div id="encounter-wrapper">
                 <EncounterCreaturesList addCreature={this.addCreature}/>
 
@@ -159,6 +163,9 @@ class Encounter extends React.Component {
                         <div className={"added-creature"}>
                             <div id={"creature-add-btn"}>+</div>
                         </div>
+                    </div>
+                    <div>
+                        <button onClick={this.removeAllCreatures}>Remove All</button>
                     </div>
                 </div>
             </div>
@@ -176,9 +183,85 @@ class Encounter extends React.Component {
         tmpCreatures.delete(creatureToRemoveId);
         this.setState({creatures: tmpCreatures});
     }
+
+    removeAllCreatures = () => {
+        let tmpCreatures = new Map();
+        this.setState({creatures: tmpCreatures});
+    }
+
+    moveCreatureUp = (creatureToMoveId) => {
+        let tmpMap= new Map();
+        //doesn't work if there's not at least 2 creatures
+        if (this.state.creatures.size <= 1) {
+            return;
+        }
+        let creatureBeforeId = -1
+        let creatureBeforeValue = -1
+        for (let [key, value] of this.state.creatures.entries()) {
+             if (key == creatureToMoveId) {
+                 break
+             }
+             creatureBeforeId = key
+             creatureBeforeValue = value
+        }
+        //already top of list
+        if (creatureBeforeId == -1) {
+            return;
+        }
+
+        for (let [key, value] of this.state.creatures.entries()) {
+            if (key == creatureBeforeId) {
+                tmpMap.set(creatureToMoveId, this.state.creatures.get(creatureToMoveId))
+            }
+                tmpMap.set(key, value)
+        }
+        this.setState({creatures: tmpMap});
+
+    }
+    moveCreatureDown = (creatureToMoveId) => {
+        let tmpMap= new Map();
+        //doesn't work if there's not at least 2 creatures
+        if (this.state.creatures.size <= 1) {
+            return;
+        }
+        let creatureAfterId = -1
+        let creatureAfterValue = -1
+        let foundCreatureToMove = false
+
+        for (let [key, value] of this.state.creatures.entries()) {
+            //found target creature on the last iteration
+            if (foundCreatureToMove) {
+                creatureAfterId = key
+                creatureAfterValue = value
+                break
+            }
+            //on target creature
+            if (key == creatureToMoveId) {
+                foundCreatureToMove = true
+            }
+        }
+
+        //already last element
+        if (creatureAfterId == -1) {
+            return
+        }
+
+        for (let [key, value] of this.state.creatures.entries()) {
+            if (key == creatureToMoveId) {
+                continue
+            }
+            if (key == creatureAfterId) {
+                tmpMap.set(creatureAfterId, creatureAfterValue)
+                tmpMap.set(creatureToMoveId, this.state.creatures.get(creatureToMoveId))
+            }
+            tmpMap.set(key, value)
+        }
+        this.setState({creatures: tmpMap});
+
+    }
 }
 
-//will need to replace this with actual data
+
 class Creature extends React.Component {
     constructor(props) {
         super(props);
@@ -229,10 +312,19 @@ class AddedCreature extends React.Component {
         this.CR = props.CR
     }
 
-    click = () => {
-        creatureToRemoveId = this.id;
+    remove = () => {
         this.props.removeCreature(this.id);
     }
+
+    moveUp = () => {
+        this.props.moveCreatureUp(this.id);
+    }
+
+    moveDown = () => {
+        this.props.moveCreatureDown(this.id);
+    }
+
+
 
     render() {
         return (
@@ -240,11 +332,13 @@ class AddedCreature extends React.Component {
                 <span>
                     <div className={"bubble"}> </div>
                     <div className={"creature-name"}>
-                        <h4>{this.name}</h4>
+                        <h4>{this.name}&nbsp;{this.id}</h4>
                         <b>CR {this.CR}</b> - <i>{this.desc}&nbsp;</i>
                     </div>
+                    <button onClick={this.moveUp}>Move Up</button>
+                    <button onClick={this.moveDown}>Move Down</button>
                 </span>
-                <button onClick={this.click}>x</button>
+                <button onClick={this.remove}>x</button>
             </div>
         );
     }
@@ -385,7 +479,7 @@ let creatureList =
             "name": "Very Small Bird",
             "desc": "small bird",
             "HP": "5",
-            "CR": "1"
+            "CR": "100"
         }
     ]
 
