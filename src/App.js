@@ -133,12 +133,6 @@ class Encounter extends React.Component {
     }
 
     render() {
-        // this.addedCreatures = this.state.creatures.map((item) =>
-        //     <AddedCreature id={id} name={item.name} desc={item.desc} HP={item.HP} CR={item.CR} removeCreature={this.removeCreature}/>)
-        // );
-
-
-
         let addedCreatures = [];
         if (this.state.creatures.size >= 0) {
             for (let [key, value] of this.state.creatures.entries()) {
@@ -147,7 +141,6 @@ class Encounter extends React.Component {
                 );
             };
         }
-        console.log(this.state.creatures);
 
         return(
             <div id="encounter-wrapper">
@@ -205,15 +198,15 @@ class Creature extends React.Component {
     render() {
         return (
             <div className={"creature"} onClick={this.click}>
-                <div className={"subdata"}>
-                    {this.state.name}
-                    <p>
-                        {this.state.desc}&nbsp;
-                        HP: {this.state.HP}&nbsp;
-                        CR: {this.state.CR}&nbsp;
-                    </p>
+                <div className={"creature-name"}>
+                    <h4>{this.state.name}</h4>
+                    {this.state.desc}
                 </div>
-                <button>+</button>
+
+                <div className={"creature-info"}>
+                    <span>CR: {this.state.CR}</span>
+                    <span>HP: {this.state.HP}</span>
+                </div>
             </div>
         );
     }
