@@ -134,11 +134,13 @@ class Encounter extends React.Component {
 
     render() {
         let addedCreatures = [];
+        let totalCR = 0;
         if (this.state.creatures.size >= 0) {
             for (let [key, value] of this.state.creatures.entries()) {
                 addedCreatures.push(
                     <AddedCreature key={key} id={key} name={value.name} desc={value.desc} HP={value.HP} CR={value.CR} removeCreature={this.removeCreature}/>
                 );
+                totalCR += parseInt(value.CR);
             };
         }
 
@@ -151,6 +153,7 @@ class Encounter extends React.Component {
                         Add Creatures to Encounter
                     </h1>
 
+                    Encounter CR : {totalCR}
                     <div id={"added-creatures"}>
                         {addedCreatures}
                         <div className={"added-creature"}>
@@ -203,7 +206,7 @@ class Creature extends React.Component {
             <div className={"creature"} onClick={this.click}>
                 <div className={"creature-name"}>
                     <h4>{this.state.name}</h4>
-                    {this.state.desc}
+                    <i>{this.state.desc}</i>
                 </div>
 
                 <div className={"creature-info"}>
@@ -235,10 +238,10 @@ class AddedCreature extends React.Component {
         return (
             <div className={"added-creature"}>
                 <span>
-                    <div className={"bubble"}> {this.CR} </div>
+                    <div className={"bubble"}> </div>
                     <div className={"creature-name"}>
                         <h4>{this.name}</h4>
-                        {this.desc}&nbsp;
+                        <b>CR {this.CR}</b> - <i>{this.desc}&nbsp;</i>
                     </div>
                 </span>
                 <button onClick={this.click}>x</button>
@@ -338,13 +341,13 @@ let creatureList =
         },
         {
             "name": "Young Red Dragon",
-            "desc": "small goblinoid",
+            "desc": "large dragon",
             "HP": "5",
             "CR": "1"
         },
         {
-            "name": "Young Red Dragon",
-            "desc": "small goblinoid",
+            "name": "Young Green Dragon",
+            "desc": "large dragon",
             "HP": "5",
             "CR": "1"
         },

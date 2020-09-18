@@ -251,7 +251,7 @@
 }
 
 .creature-name {
-  font-style: italic;
+  /*font-style: italic;*/
   font-size: 16px;
 }
 
@@ -314,18 +314,22 @@
   justify-content: center;
   text-align: center;
   align-items: center;
-  opacity:50%
+  opacity:0%
 }
 
 .added-creature:only-of-type {
   height: 100%;
   background-color: rgba(188, 204, 220, 1);
-  opacity: 50%;
+  opacity: 0%;
 }
 
 .added-creature span {
   display: flex;
   flex-direction: row;
+}
+
+.added-creature .creature-name {
+  width: 350px;
 }
 
 .bubble {
@@ -337,7 +341,7 @@
   width: 50px;
   height: 50px;
   border-radius: 30px;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .added-creature button {
