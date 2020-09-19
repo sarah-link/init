@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
+import './resources/rpg-awesome/css/rpg-awesome.css'
 import {
     BrowserRouter as Router,
     Switch,
@@ -8,6 +9,10 @@ import {
     Link
   } from "react-router-dom";
 import onClickOutside from "react-onclickoutside";
+import {
+    ChevronUp,
+    ChevronDown
+} from 'react-bootstrap-icons';
 
 function NavBar() {
     return(
@@ -101,6 +106,41 @@ class MainButtonDiv extends React.Component {
     }
 }
 
+function getCreatureIcon(creatureType) {
+    switch (creatureType) {
+        case "aberration":
+            return "ra ra-octopus";
+        case "beast":
+            return "ra ra-pawprint";
+        case "celestial":
+            return "ra ra-angel-wings";
+        case "construct":
+            return "ra ra-reactor";
+        case "dragon":
+            return "ra ra-wyvern";
+        case "elemental":
+            return "ra ra-fire";
+        case "fey":
+            return "ra ra-fairy";
+        case "fiend":
+            return "ra ra-batwings";
+        case "giant":
+            return "ra ra-muscle-fat";
+        case "humanoid":
+            return "ra ra-archer";
+        case "monstrosity":
+            return "ra ra-beetle";
+        case "ooze":
+            return "ra ra-ice-cube";
+        case "plant":
+            return "ra ra-flower";
+        case "undead":
+            return "ra ra-desert-skull";
+        default:
+            return "ra ra-dinosaur";
+    }
+}
+
 class EncounterCreaturesList extends React.Component {
     constructor(props) {
         super(props);
@@ -109,7 +149,7 @@ class EncounterCreaturesList extends React.Component {
     render() {
         let itemList=[];
         creatureList.forEach((item,index)=>{
-            itemList.push( <Creature name={item.name} desc={item.desc} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+            itemList.push( <Creature name={item.name} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
         })
         return (
             <div id={"creature-list"}>
@@ -141,7 +181,7 @@ class Encounter extends React.Component {
         if (this.state.creatures.size >= 0) {
             for (let [key, value] of this.state.creatures.entries()) {
                 addedCreatures.push(
-                    <AddedCreature key={key} id={key} name={value.name} desc={value.desc} HP={value.HP} CR={value.CR}
+                    <AddedCreature key={key} id={key} name={value.name} type={value.type} HP={value.HP} CR={value.CR}
                                    removeCreature={this.removeCreature} moveCreatureUp={this.moveCreatureUp} moveCreatureDown={this.moveCreatureDown}/>
                 );
                 totalCR += parseInt(value.CR);
@@ -267,7 +307,7 @@ class Creature extends React.Component {
         super(props);
         this.state = {
         name: props.name,
-        desc: props.desc,
+        type: props.type,
         HP: props.HP,
         CR: props.CR
         }
@@ -277,7 +317,7 @@ class Creature extends React.Component {
         toAddCreature =
             {
                 name: this.state.name,
-                desc: this.state.desc,
+                type: this.state.type,
                 HP: this.state.HP,
                 CR: this.state.CR
             }
@@ -289,7 +329,7 @@ class Creature extends React.Component {
             <div className={"creature"} onClick={this.click}>
                 <div className={"creature-name"}>
                     <h4>{this.state.name}</h4>
-                    <i>{this.state.desc}</i>
+                    <i>{this.state.type}</i>
                 </div>
 
                 <div className={"creature-info"}>
@@ -307,7 +347,7 @@ class AddedCreature extends React.Component {
         super(props);
         this.id = props.id
         this.name = props.name
-        this.desc = props.desc
+        this.type = props.type
         this.HP = props.HP
         this.CR = props.CR
     }
@@ -330,15 +370,17 @@ class AddedCreature extends React.Component {
         return (
             <div className={"added-creature"}>
                 <span>
-                    <div className={"bubble"}> </div>
+                    <div className={"bubble"}><i className={getCreatureIcon(this.type)} /></div>
                     <div className={"creature-name"}>
                         <h4>{this.name}&nbsp;{this.id}</h4>
-                        <b>CR {this.CR}</b> - <i>{this.desc}&nbsp;</i>
+                        <b>CR {this.CR}</b> - <i>{this.type}&nbsp;</i>
                     </div>
-                    <button onClick={this.moveUp}>Move Up</button>
-                    <button onClick={this.moveDown}>Move Down</button>
+                    <div className={"creature-icon-buttons"}>
+                        <ChevronUp onClick={this.moveUp} size={24}/>
+                        <ChevronDown onClick={this.moveDown} size={24}/>
+                    </div>
                 </span>
-                <button onClick={this.remove}>x</button>
+                <button className={"delete-button"} onClick={this.remove} />
             </div>
         );
     }
@@ -423,64 +465,113 @@ let creatureList =
     [
         {
             "name": "Goblin",
-            "desc": "small goblinoid",
+            "type": "humanoid",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Goblin Boss",
-            "desc": "small goblinoid",
+            "type": "humanoid",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Young Red Dragon",
-            "desc": "large dragon",
+            "type": "dragon",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Young Green Dragon",
-            "desc": "large dragon",
+            "type": "dragon",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Gnoll",
-            "desc": "small goblinoid",
+            "type": "humanoid",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Orc",
-            "desc": "small goblinoid",
+            "type": "humanoid",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Gelatinous Cube",
-            "desc": "small goblinoid",
+            "type": "ooze",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Black Pudding",
-            "desc": "small goblinoid",
+            "type": "ooze",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Ochre Jelly",
-            "desc": "small goblinoid",
+            "type": "ooze",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Very Small Bird",
-            "desc": "small bird",
+            "type": "beast",
             "HP": "5",
             "CR": "100"
+        },
+        {
+            "name": "Zombie",
+            "type": "undead",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Myconid",
+            "type": "plant",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Hill Giant",
+            "type": "giant",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Angel",
+            "type": "celestial",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Devil",
+            "type": "fiend",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Tarrasque",
+            "type": "monstrosity",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Iron Golem",
+            "type": "construct",
+            "HP": "5",
+            "CR": "1"
+        },
+        {
+            "name": "Mind Flayer",
+            "type": "aberration",
+            "HP": "5",
+            "CR": "1"
         }
+
     ]
 
 
