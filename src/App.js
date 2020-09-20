@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 import './resources/rpg-awesome/css/rpg-awesome.css';
 import './resources/eva-icons/style/eva-icons.css';
+import creaturesJSON from './data/5e-creatures.json';
 import {
     BrowserRouter as Router,
     Switch,
@@ -11,6 +11,7 @@ import {
   } from "react-router-dom";
 import onClickOutside from "react-onclickoutside";
 
+let creatureList = creaturesJSON.creatures;
 
 function NavBar() {
     return(
@@ -69,7 +70,7 @@ class SideNav extends React.Component {
     }
 }
 
-var SideNavClickable = onClickOutside(SideNav);
+const SideNavClickable = onClickOutside(SideNav);
 
 class MainButtonDiv extends React.Component {
     constructor(props) {
@@ -128,12 +129,15 @@ function getCreatureIcon(creatureType) {
 class EncounterCreaturesList extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            searchText: ''
+        }
     }
 
     render() {
         let itemList=[];
         creatureList.forEach((item,index)=>{
-            itemList.push( <Creature name={item.name} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+            itemList.push( <Creature key={index} name={item.name} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
         })
         return (
             <div id={"creature-list"}>
@@ -171,6 +175,8 @@ class Encounter extends React.Component {
                 totalCR += parseInt(value.CR);
             }
         }
+
+        console.log(creatureList);
 
         return (
             <div id="encounter-wrapper">
@@ -417,138 +423,5 @@ class App extends React.Component {
         );
     }
 }
-
-//figure out how to move this into its own file later
-let creatureList =
-    [
-        {
-            "name": "Goblin",
-            "size": "medium",
-            "type": "humanoid",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Goblin Boss",
-            "size": "medium",
-            "type": "humanoid",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Young Red Dragon",
-            "size": "large",
-            "type": "dragon",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Young Green Dragon",
-            "size": "large",
-            "type": "dragon",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Gnoll",
-            "size": "medium",
-            "type": "humanoid",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Orc",
-            "size": "medium",
-            "type": "humanoid",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Gelatinous Cube",
-            "size": "large",
-            "type": "ooze",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Black Pudding",
-            "size": "medium",
-            "type": "ooze",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Ochre Jelly",
-            "size": "medium",
-            "type": "ooze",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Very Small Bird",
-            "size": "tiny",
-            "type": "beast",
-            "HP": "5",
-            "CR": "100"
-        },
-        {
-            "name": "Zombie",
-            "size": "medium",
-            "type": "undead",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Myconid",
-            "size": "medium",
-            "type": "plant",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Hill Giant",
-            "size": "large",
-            "type": "giant",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Angel",
-            "size": "medium",
-            "type": "celestial",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Devil",
-            "size": "medium",
-            "type": "fiend",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Tarrasque",
-            "size": "gargantuan",
-            "type": "monstrosity",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Iron Golem",
-            "size": "large",
-            "type": "construct",
-            "HP": "5",
-            "CR": "1"
-        },
-        {
-            "name": "Mind Flayer",
-            "size": "medium",
-            "type": "aberration",
-            "HP": "5",
-            "CR": "1"
-        }
-
-    ]
-
 
 export default App;
