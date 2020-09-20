@@ -299,16 +299,20 @@
   background-color: #3EBD93;
   text-align: left;
   margin-bottom: 8px;
+  z-index: 1;
+  position: relative;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  -webkit-align-items: center;
 }
 
 .added-creature:hover {
   cursor: default;
   /*background-color: #99ddbe;*/
+  position: relative;
+
 }
 
 .added-creature:last-of-type {
@@ -345,48 +349,40 @@
   height: 50px;
   border-radius: 30px;
   margin-right: 20px;
-
+  transition: all 0.2s linear;
   color: #014D40;
 }
 
-.added-creature button {
-  height: 26px;
-  width: 26px;
-  font-size: 14px;
-  text-align: center;
-  border: none;
-  border-radius: 20px;
-  /*opacity: 0;*/
-}
-
-.added-creature:hover button {
-  /*opacity: 100;*/
-}
-
 .added-creature .delete-button {
-  border-radius: 0;
   position: relative;
   top: -20px;
   right:-20px;
-  width: 15px;
-  height:15px;
-  background-color: #A61B1B;
+  width: 30px;
+  height:30px;
+  background-color: #147D64;
   padding: 0;
   align-self: flex-start;
+  font-size: 18px;
+  text-align: center;
+  line-height: 30px;
 
-  transition: all 0.2s;
+  transition: all 0.1s ease-out;
+  opacity: 50%;
 }
 
 .added-creature .delete-button:hover {
-  content: "x";
-  width:30px;
-  height:30px;
   background-color: #A61B1B;
   color: white;
+  opacity: 100%;
 }
 
-.added-creature .delete-button:hover::after {
-  content: 'x';
+.added-creature .delete-button:active {
+  background-color: #610404;
+  color: #FFEEEE;
+}
+
+.added-creature .eva:hover {
+  cursor: pointer;
 }
 
 #creature-add-btn {
@@ -405,4 +401,32 @@
   justify-content: space-between;
   position: relative;
   left: 50px;
+}
+
+.creature-icon-buttons i {
+  background-color: transparent;
+  font-size: 24px;
+  border-radius: 24px;
+}
+
+.creature-icon-buttons i:hover {
+  background-color: rgba(240, 244, 248, 1);
+  color: #147D64;
+  transition: all 0.075s;
+}
+
+.creature-icon-buttons i:active {
+  background-color: #147D64;
+  color: #3EBD93;
+
+}
+
+@keyframes swap-up {
+  0% {top: 0}
+  100% {top: -104px}
+}
+
+@keyframes swap-down {
+  0% {top: 0}
+  100% {top: 104px}
 }

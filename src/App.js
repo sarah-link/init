@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
-import './resources/rpg-awesome/css/rpg-awesome.css'
+import './resources/rpg-awesome/css/rpg-awesome.css';
+import './resources/eva-icons/style/eva-icons.css';
 import {
     BrowserRouter as Router,
     Switch,
@@ -9,10 +10,7 @@ import {
     Link
   } from "react-router-dom";
 import onClickOutside from "react-onclickoutside";
-import {
-    ChevronUp,
-    ChevronDown
-} from 'react-bootstrap-icons';
+
 
 function NavBar() {
     return(
@@ -149,7 +147,7 @@ class EncounterCreaturesList extends React.Component {
     render() {
         let itemList=[];
         creatureList.forEach((item,index)=>{
-            itemList.push( <Creature name={item.name} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+            itemList.push( <Creature name={item.name} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
         })
         return (
             <div id={"creature-list"}>
@@ -181,7 +179,7 @@ class Encounter extends React.Component {
         if (this.state.creatures.size >= 0) {
             for (let [key, value] of this.state.creatures.entries()) {
                 addedCreatures.push(
-                    <AddedCreature key={key} id={key} name={value.name} type={value.type} HP={value.HP} CR={value.CR}
+                    <AddedCreature key={key} id={key} name={value.name} size={value.size} type={value.type} HP={value.HP} CR={value.CR}
                                    removeCreature={this.removeCreature} moveCreatureUp={this.moveCreatureUp} moveCreatureDown={this.moveCreatureDown}/>
                 );
                 totalCR += parseInt(value.CR);
@@ -238,19 +236,19 @@ class Encounter extends React.Component {
         let creatureBeforeId = -1
         let creatureBeforeValue = -1
         for (let [key, value] of this.state.creatures.entries()) {
-             if (key == creatureToMoveId) {
+             if (key === creatureToMoveId) {
                  break
              }
              creatureBeforeId = key
              creatureBeforeValue = value
         }
         //already top of list
-        if (creatureBeforeId == -1) {
+        if (creatureBeforeId === -1) {
             return;
         }
 
         for (let [key, value] of this.state.creatures.entries()) {
-            if (key == creatureBeforeId) {
+            if (key === creatureBeforeId) {
                 tmpMap.set(creatureToMoveId, this.state.creatures.get(creatureToMoveId))
             }
                 tmpMap.set(key, value)
@@ -276,21 +274,21 @@ class Encounter extends React.Component {
                 break
             }
             //on target creature
-            if (key == creatureToMoveId) {
+            if (key === creatureToMoveId) {
                 foundCreatureToMove = true
             }
         }
 
         //already last element
-        if (creatureAfterId == -1) {
+        if (creatureAfterId === -1) {
             return
         }
 
         for (let [key, value] of this.state.creatures.entries()) {
-            if (key == creatureToMoveId) {
+            if (key === creatureToMoveId) {
                 continue
             }
-            if (key == creatureAfterId) {
+            if (key === creatureAfterId) {
                 tmpMap.set(creatureAfterId, creatureAfterValue)
                 tmpMap.set(creatureToMoveId, this.state.creatures.get(creatureToMoveId))
             }
@@ -307,6 +305,7 @@ class Creature extends React.Component {
         super(props);
         this.state = {
         name: props.name,
+        size: props.size,
         type: props.type,
         HP: props.HP,
         CR: props.CR
@@ -317,6 +316,7 @@ class Creature extends React.Component {
         toAddCreature =
             {
                 name: this.state.name,
+                size: this.state.size,
                 type: this.state.type,
                 HP: this.state.HP,
                 CR: this.state.CR
@@ -329,7 +329,7 @@ class Creature extends React.Component {
             <div className={"creature"} onClick={this.click}>
                 <div className={"creature-name"}>
                     <h4>{this.state.name}</h4>
-                    <i>{this.state.type}</i>
+                    <i>{this.state.size} {this.state.type}</i>
                 </div>
 
                 <div className={"creature-info"}>
@@ -347,6 +347,7 @@ class AddedCreature extends React.Component {
         super(props);
         this.id = props.id
         this.name = props.name
+        this.size = props.size
         this.type = props.type
         this.HP = props.HP
         this.CR = props.CR
@@ -373,14 +374,14 @@ class AddedCreature extends React.Component {
                     <div className={"bubble"}><i className={getCreatureIcon(this.type)} /></div>
                     <div className={"creature-name"}>
                         <h4>{this.name}&nbsp;{this.id}</h4>
-                        <b>CR {this.CR}</b> - <i>{this.type}&nbsp;</i>
+                        <b>CR {this.CR}</b> - <i>{this.size} {this.type}</i>
                     </div>
                     <div className={"creature-icon-buttons"}>
-                        <ChevronUp onClick={this.moveUp} size={24}/>
-                        <ChevronDown onClick={this.moveDown} size={24}/>
+                        <i className={"eva eva-chevron-up-outline"} onClick={this.moveUp} />
+                        <i className={"eva eva-chevron-down-outline"} onClick={this.moveDown} />
                     </div>
                 </span>
-                <button className={"delete-button"} onClick={this.remove} />
+                <i className={"eva eva-close-outline delete-button"} onClick={this.remove} />
             </div>
         );
     }
@@ -465,108 +466,126 @@ let creatureList =
     [
         {
             "name": "Goblin",
+            "size": "medium",
             "type": "humanoid",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Goblin Boss",
+            "size": "medium",
             "type": "humanoid",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Young Red Dragon",
+            "size": "large",
             "type": "dragon",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Young Green Dragon",
+            "size": "large",
             "type": "dragon",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Gnoll",
+            "size": "medium",
             "type": "humanoid",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Orc",
+            "size": "medium",
             "type": "humanoid",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Gelatinous Cube",
+            "size": "large",
             "type": "ooze",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Black Pudding",
+            "size": "medium",
             "type": "ooze",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Ochre Jelly",
+            "size": "medium",
             "type": "ooze",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Very Small Bird",
+            "size": "tiny",
             "type": "beast",
             "HP": "5",
             "CR": "100"
         },
         {
             "name": "Zombie",
+            "size": "medium",
             "type": "undead",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Myconid",
+            "size": "medium",
             "type": "plant",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Hill Giant",
+            "size": "large",
             "type": "giant",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Angel",
+            "size": "medium",
             "type": "celestial",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Devil",
+            "size": "medium",
             "type": "fiend",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Tarrasque",
+            "size": "gargantuan",
             "type": "monstrosity",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Iron Golem",
+            "size": "large",
             "type": "construct",
             "HP": "5",
             "CR": "1"
         },
         {
             "name": "Mind Flayer",
+            "size": "medium",
             "type": "aberration",
             "HP": "5",
             "CR": "1"
