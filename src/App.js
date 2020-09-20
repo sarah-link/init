@@ -36,24 +36,9 @@ function MainButtons() {
 
 function Button(props) {
     return(
-        // <button className={props.className} onClick={props.onClick}>
-        //     {props.text}
-        // </button>
-
         <Link to={props.url} className={props.className}>
             {props.text}
         </Link>
-    )
-}
-
-function IconButton(props) {
-    return (
-            <svg id="menu-button" width="40" height="40" viewBox="0 0 20 20" onClick={props.onClick}
-                 xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd"
-                      d="M6.646 3.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L12.293 10 6.646 4.354a.5.5 0 010-.708z"
-                      clipRule="evenodd"/>
-            </svg>
     )
 }
 
@@ -72,13 +57,13 @@ class SideNav extends React.Component {
         if (this.state.isOpen === true) {
             return (
                 <div className={"sidenav"} id={"sidenav-expanded"}>
-                    <IconButton className={"navbar-button"} onClick={() => this.toggleSidebar()} />
+                    <i className={"eva eva-arrow-ios-forward navbar-button"} id={"menu-button"} onClick={() => this.toggleSidebar()} />
                 </div>
             )
         }
         return (
             <div className={"sidenav"} id={"sidenav-collapsed"}>
-                <IconButton className={"navbar-button"} onClick={() => this.toggleSidebar()} />
+                <i className={"eva eva-arrow-ios-forward navbar-button"} id={"menu-button"} onClick={() => this.toggleSidebar()} />
             </div>
         )
     }
@@ -105,6 +90,7 @@ class MainButtonDiv extends React.Component {
 }
 
 function getCreatureIcon(creatureType) {
+    /* Returns string for RPG-Awesome icon class for every creature type */
     switch (creatureType) {
         case "aberration":
             return "ra ra-octopus";

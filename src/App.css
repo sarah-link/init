@@ -144,6 +144,7 @@
   background-color: #27AB83;
   color: white;
   text-decoration: none;
+  cursor: pointer;
 }
 
 #title-link {
@@ -187,8 +188,17 @@
 #menu-button {
   z-index: 10;
   position: fixed;
-  left: 5px;
-  margin-top: 5px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  left: -13px;
+  top: -2px;
+  width: 50px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  font-size: 35px;
+  border-radius: 60px;
 
   transition: transform 0.05s;
   transition-delay: 0.02s;
@@ -201,7 +211,7 @@
 }
 
 #sidenav-collapsed #menu-button {
-  fill: #147D64;
+  color: #147D64;
   transform: scaleX(1);
 }
 
