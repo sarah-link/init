@@ -233,7 +233,7 @@
 #creature-list {
   font-size:20px;
   list-style-type: none;
-  padding: 3px 0px 20px 0px;
+  padding: 0 0 5px 0;
   border-right: 2px solid #199473;
   border-left: 2px solid #199473;
   background-color: #F0F4F8;
@@ -264,14 +264,18 @@
 }
 
 .creature:hover {
-  background-color: #99ddbe;
+  background-color: #81D59B;
   cursor: pointer;
 }
 
-#no-match-creature-list {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 2px solid #199473;
+.creature:last-child {
+  margin-bottom: 0;
+}
+
+#no-match-creature-list:not(:empty) {
+  margin-top:5px;
+  border-top: 12px solid #199473;
+  padding-top: 5px;
 }
 
 #no-match-creature-list > .creature {
@@ -279,7 +283,7 @@
 }
 
 #no-match-creature-list > .creature:hover {
-  background-color: #b2d1c7;
+  background-color: #96C0A3;
 }
 
 .creature-name {
@@ -441,7 +445,7 @@
 }
 
 .creature-icon-buttons i:hover {
-  background-color: rgba(240, 244, 248, 1);
+  background-color: #E8F7ED;
   color: #147D64;
   transition: all 0.075s;
 }
