@@ -243,13 +243,13 @@
 
 
   overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  /*scrollbar-width: none; !* Firefox *!*/
+  /*-ms-overflow-style: none;  !* Internet Explorer 10+ *!*/
 }
 
-#creature-list::-webkit-scrollbar {
-  display: none;
-}
+/*#creature-list::-webkit-scrollbar {*/
+/*  display: none;*/
+/*}*/
 
 .creature {
   display: flex;

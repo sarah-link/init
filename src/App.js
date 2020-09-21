@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import './resources/rpg-awesome/css/rpg-awesome.css';
 import './resources/eva-icons/style/eva-icons.css';
-import creaturesJSON from './data/5e-creatures.json';
+import creaturesJSON from './data/monsters.json';
 import {
     BrowserRouter as Router,
     Switch,
@@ -153,7 +153,7 @@ class EncounterCreaturesList extends React.Component {
             })
         } else {
             creatureList.forEach(item =>{
-                itemList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+                itemList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} HP={item.hit_points} CR={item.challenge_rating} addCreature={this.props.addCreature}/>)
             })
         }
         return (
@@ -181,6 +181,7 @@ class EncounterCreaturesList extends React.Component {
     }
 
     search() {
+        document.getElementById('creature-list').scrollTop = 0;
         let matchingList = []
         let notMatchingList = []
         let searchTerm = document.getElementById('creatureSearch').value
@@ -190,9 +191,9 @@ class EncounterCreaturesList extends React.Component {
         }
         creatureList.forEach((item,index)=>{
             if (item.name.toLowerCase().includes(searchTerm)) {
-                matchingList.push( <Creature key={item.index} name={item.name} index={item.index} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+                matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} HP={item.hit_points} CR={item.challenge_rating} addCreature={this.props.addCreature}/>)
             } else {
-                notMatchingList.push( <Creature key={item.index} name={item.name} index={item.index} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+                notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} HP={item.hit_points} CR={item.challenge_rating} addCreature={this.props.addCreature}/>)
             }
         })
         this.setState({matching: matchingList, notMatching: notMatchingList})
@@ -221,7 +222,7 @@ class Encounter extends React.Component {
         if (this.state.creatures.size >= 0) {
             for (let [key, value] of this.state.creatures.entries()) {
                 addedCreatures.push(
-                    <AddedCreature key={key} id={key} name={value.name} index={value.index} size={value.size} type={value.type} HP={value.HP} CR={value.CR}
+                    <AddedCreature key={key} id={key} name={value.name} size={value.size} type={value.type} HP={value.HP} CR={value.CR}
                                    removeCreature={this.removeCreature} moveCreatureUp={this.moveCreatureUp} moveCreatureDown={this.moveCreatureDown}/>
                 );
                 totalCR += parseInt(value.CR);
@@ -316,7 +317,6 @@ class Creature extends React.Component {
         super(props);
         this.state = {
         name: props.name,
-        index: props.index,
         size: props.size,
         type: props.type,
         HP: props.HP,
@@ -328,7 +328,6 @@ class Creature extends React.Component {
         toAddCreature =
             {
                 name: this.state.name,
-                index: this.state.index,
                 size: this.state.size,
                 type: this.state.type,
                 HP: this.state.HP,
