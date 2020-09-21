@@ -164,7 +164,7 @@ class EncounterCreaturesList extends React.Component {
                 <div id={"creature-list"}>
                     <div id={"matching-creature-list"}>
                         {this.state.matching}
-                        </div>
+                    </div>
                     <div id={"no-match-creature-list"}>
                         {this.state.notMatching}
                     </div>
@@ -202,6 +202,19 @@ class EncounterCreaturesList extends React.Component {
         })
         
         this.setState({matching: matchingList, notMatching: notMatchingList})
+    }
+}
+
+class CreatureSpacer extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return(
+            <div className={"creature-spacer"}>
+                <span>{this.props.text}</span>
+            </div>
+        )
     }
 }
 
