@@ -138,15 +138,26 @@ class EncounterCreaturesList extends React.Component {
     }
 
     render() {
+        console.log("render")
         return (
             <div id={"creature-list-wrapper"}>
                 <div id={"creature-list-search-module"} >
-                    <input type="text" id="creatureSearch" onInput={() => this.search()} placeholder="Search..." /><br />
+                    <input type="text" id="creatureSearch" onChange={() => this.applyFilters()} placeholder="Search..." /><br />
                     <label htmlFor={"creatureTypeFilter"}>Filter by type</label>
-                    <select name="creatureTypes" id="creatureTypeFilter">
+                    <select name="creatureTypes" id="creatureTypeFilter" onChange={() => this.applyFilters()}>
                         <option value="all">All</option>
+                        <option value="aberration">Aberration</option>
+                        <option value="beast">Beast</option>
+                        <option value="celestial">Celestial</option>
+                        <option value="construct">Construct</option>
+                        <option value="dragon">Dragon</option>
+                        <option value="elemental">Elemental</option>
+                        <option value="fey">Fey</option>
+                        <option value="giant">Giant</option>
                         <option value="humanoid">Humanoid</option>
+                        <option value="monstrosity">Monstrosity</option>
                         <option value="ooze">Ooze</option>
+                        <option value="plant">Plant</option>
                         <option value="undead">Undead</option>
                     </select>
                 </div>
@@ -163,20 +174,30 @@ class EncounterCreaturesList extends React.Component {
     }
 
     componentDidMount() {
-        this.search();
+        this.applyFilters();
     }
 
-    search() {
+    applyFilters() {
         document.getElementById('creature-list').scrollTop = 0;
         let matchingList = []
         let notMatchingList = []
+
         let searchTerm = document.getElementById('creatureSearch').value
+        let type = document.getElementById('creatureTypeFilter').value
+        let typeFilterIsAll = type === 'all'
 
         this.creatureSummary.forEach(item=>{
-            if (item.name.toLowerCase().match(searchTerm)) {
-                matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
-            } else {
+            if (item.name.toLowerCase().includes(searchTerm)) {
+                //add to match if the type filter is all, or if it isn't and the type matches
+                if ((!typeFilterIsAll && item.type === type) || typeFilterIsAll) {
+                    matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
+
+                } else { //type filter is on, but item doesn't match type
+                    notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
+                }
+            } else { //doesn't match search term, filter N/A
                 notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
+
             }
         })
         
