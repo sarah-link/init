@@ -261,6 +261,14 @@
   cursor: pointer;
 }
 
+#no-match-creature-list > .creature {
+  background-color: #9ab5ac;
+}
+
+#no-match-creature-list > .creature:hover {
+  background-color: #b2d1c7;
+}
+
 .creature-name {
   /*font-style: italic;*/
   font-size: 16px;

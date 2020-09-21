@@ -130,24 +130,74 @@ class EncounterCreaturesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchText: ''
+            isSearching: false,
+            matching: [],
+            notMatching: []
         }
     }
 
     render() {
-        let itemList=[];
-        creatureList.forEach((item,index)=>{
-            itemList.push( <Creature key={index} name={item.name} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
-        })
+        let itemList=[]
+        let noMatchItemList=[]
+        // if not empty search bar
+        if (this.state.matching.length !== 0) {
+            this.state.matching.forEach(item => {
+                // console.log(this.state.matching);
+                // console.log("adding a " + item.props.name)
+                itemList.push(item)
+                // console.log(item.props)
+
+            })
+            this.state.notMatching.forEach(item => {
+                noMatchItemList.push(item)
+            })
+        } else {
+            creatureList.forEach(item =>{
+                itemList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+            })
+        }
         return (
-            <div id={"creature-list"}>
-                {itemList}
+            <div>
+                <input type="text" id="creatureSearch" onInput={() => this.search()} placeholder="Search..." /><br />
+                <label htmlFor={"creatureTypeFilter"}>Filter by type</label>
+                <select name="creatureTypes" id="creatureTypeFilter">
+                    <option value="all">All</option>
+                    <option value="humanoid">Humanoid</option>
+                    <option value="ooze">Ooze</option>
+                    <option value="undead">Undead</option>
+                </select>
+                <div id={"creature-list"}>
+                    <div id={"matching-creature-list"}>
+                        {itemList}
+                    </div>
+                    <div id={"no-match-creature-list"}>
+                        {noMatchItemList}
+                    </div>
+                </div>
             </div>
         )
     }
 
     search() {
-        //sort the array for the search
+        let matchingList = []
+        let notMatchingList = []
+        let searchTerm = document.getElementById('creatureSearch').value
+        if (searchTerm === '') {
+            this.setState({isSearching: false, matching: matchingList, notMatching: notMatchingList})
+            return
+        }
+        creatureList.forEach((item,index)=>{
+            if (item.name.toLowerCase().includes(searchTerm)) {
+                matchingList.push( <Creature key={item.index} name={item.name} index={item.index} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+            } else {
+                notMatchingList.push( <Creature key={item.index} name={item.name} index={item.index} size={item.size} type={item.type} HP={item.HP} CR={item.CR} addCreature={this.props.addCreature}/>)
+            }
+        })
+        this.setState({matching: matchingList, notMatching: notMatchingList})
+        console.log("matches in search")
+        console.log(matchingList)
+        console.log("not matching in search")
+        console.log(notMatchingList)
     }
 }
 
@@ -169,15 +219,12 @@ class Encounter extends React.Component {
         if (this.state.creatures.size >= 0) {
             for (let [key, value] of this.state.creatures.entries()) {
                 addedCreatures.push(
-                    <AddedCreature key={key} id={key} name={value.name} size={value.size} type={value.type} HP={value.HP} CR={value.CR}
+                    <AddedCreature key={key} id={key} name={value.name} index={value.index} size={value.size} type={value.type} HP={value.HP} CR={value.CR}
                                    removeCreature={this.removeCreature} moveCreatureUp={this.moveCreatureUp} moveCreatureDown={this.moveCreatureDown}/>
                 );
                 totalCR += parseInt(value.CR);
             }
         }
-
-        console.log(creatureList);
-
         return (
             <div id="encounter-wrapper">
                 <EncounterCreaturesList addCreature={this.addCreature}/>
@@ -203,8 +250,7 @@ class Encounter extends React.Component {
     }
 
     addCreature = () => {
-        this.setState({creatures: this.state.creatures.set(id, toAddCreature)});
-        console.log(this.state.creatures);
+        this.setState({creatures: this.state.creatures.set(id, toAddCreature)})
         id++;
     };
 
@@ -268,6 +314,7 @@ class Creature extends React.Component {
         super(props);
         this.state = {
         name: props.name,
+        index: props.index,
         size: props.size,
         type: props.type,
         HP: props.HP,
@@ -279,6 +326,7 @@ class Creature extends React.Component {
         toAddCreature =
             {
                 name: this.state.name,
+                index: this.state.index,
                 size: this.state.size,
                 type: this.state.type,
                 HP: this.state.HP,
@@ -310,6 +358,7 @@ class AddedCreature extends React.Component {
         super(props);
         this.id = props.id
         this.name = props.name
+        this.index = props.index
         this.size = props.size
         this.type = props.type
         this.HP = props.HP
