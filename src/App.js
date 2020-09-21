@@ -130,32 +130,14 @@ class EncounterCreaturesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isSearching: false,
             matching: [],
             notMatching: []
         }
+
+        this.creatureSummary = this.props.creatureSummary;
     }
 
     render() {
-        let itemList=[]
-        let noMatchItemList=[]
-        // if not empty search bar
-        if (this.state.matching.length !== 0) {
-            this.state.matching.forEach(item => {
-                // console.log(this.state.matching);
-                // console.log("adding a " + item.props.name)
-                itemList.push(item)
-                // console.log(item.props)
-
-            })
-            this.state.notMatching.forEach(item => {
-                noMatchItemList.push(item)
-            })
-        } else {
-            creatureList.forEach(item =>{
-                itemList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} HP={item.hit_points} CR={item.challenge_rating} addCreature={this.props.addCreature}/>)
-            })
-        }
         return (
             <div id={"creature-list-wrapper"}>
                 <div id={"creature-list-search-module"} >
@@ -170,14 +152,18 @@ class EncounterCreaturesList extends React.Component {
                 </div>
                 <div id={"creature-list"}>
                     <div id={"matching-creature-list"}>
-                        {itemList}
-                    </div>
+                        {this.state.matching}
+                        </div>
                     <div id={"no-match-creature-list"}>
-                        {noMatchItemList}
+                        {this.state.notMatching}
                     </div>
                 </div>
             </div>
         )
+    }
+
+    componentDidMount() {
+        this.search();
     }
 
     search() {
@@ -185,22 +171,16 @@ class EncounterCreaturesList extends React.Component {
         let matchingList = []
         let notMatchingList = []
         let searchTerm = document.getElementById('creatureSearch').value
-        if (searchTerm === '') {
-            this.setState({isSearching: false, matching: matchingList, notMatching: notMatchingList})
-            return
-        }
-        creatureList.forEach((item,index)=>{
-            if (item.name.toLowerCase().includes(searchTerm)) {
-                matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} HP={item.hit_points} CR={item.challenge_rating} addCreature={this.props.addCreature}/>)
+
+        this.creatureSummary.forEach(item=>{
+            if (item.name.toLowerCase().match(searchTerm)) {
+                matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
             } else {
-                notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} HP={item.hit_points} CR={item.challenge_rating} addCreature={this.props.addCreature}/>)
+                notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
             }
         })
+        
         this.setState({matching: matchingList, notMatching: notMatchingList})
-        console.log("matches in search")
-        console.log(matchingList)
-        console.log("not matching in search")
-        console.log(notMatchingList)
     }
 }
 
@@ -222,15 +202,15 @@ class Encounter extends React.Component {
         if (this.state.creatures.size >= 0) {
             for (let [key, value] of this.state.creatures.entries()) {
                 addedCreatures.push(
-                    <AddedCreature key={key} id={key} name={value.name} size={value.size} type={value.type} HP={value.HP} CR={value.CR}
+                    <AddedCreature key={key} id={key} name={value.name} size={value.size} type={value.type} hit_points={value.hit_points} challenge_rating={value.challenge_rating}
                                    removeCreature={this.removeCreature} moveCreatureUp={this.moveCreatureUp} moveCreatureDown={this.moveCreatureDown}/>
                 );
-                totalCR += parseInt(value.CR);
+                totalCR += parseInt(value.challenge_rating);
             }
         }
         return (
             <div id="encounter-wrapper">
-                <EncounterCreaturesList addCreature={this.addCreature}/>
+                <EncounterCreaturesList addCreature={this.addCreature} creatureSummary={this.props.creatureSummary} />
 
                 <div id="encounter-list">
                     <h1>
@@ -319,8 +299,8 @@ class Creature extends React.Component {
         name: props.name,
         size: props.size,
         type: props.type,
-        HP: props.HP,
-        CR: props.CR
+        hit_points: props.hit_points,
+        challenge_rating: props.challenge_rating
         }
     }
 
@@ -330,8 +310,8 @@ class Creature extends React.Component {
                 name: this.state.name,
                 size: this.state.size,
                 type: this.state.type,
-                HP: this.state.HP,
-                CR: this.state.CR
+                hit_points: this.state.hit_points,
+                challenge_rating: this.state.challenge_rating
             }
         this.props.addCreature();
     }
@@ -345,8 +325,8 @@ class Creature extends React.Component {
                 </div>
 
                 <div className={"creature-info"}>
-                    <span>CR: {this.state.CR}</span>
-                    <span>HP: {this.state.HP}</span>
+                    <span>CR: {this.state.challenge_rating}</span>
+                    <span>HP: {this.state.hit_points}</span>
                 </div>
             </div>
         );
@@ -362,8 +342,8 @@ class AddedCreature extends React.Component {
         this.index = props.index
         this.size = props.size
         this.type = props.type
-        this.HP = props.HP
-        this.CR = props.CR
+        this.hit_points = props.hit_points
+        this.challenge_rating = props.challenge_rating
     }
 
     remove = () => {
@@ -387,7 +367,7 @@ class AddedCreature extends React.Component {
                     <div className={"bubble"}><i className={getCreatureIcon(this.type)} /></div>
                     <div className={"creature-name"}>
                         <h4>{this.name}&nbsp;{this.id}</h4>
-                        <b>CR {this.CR}</b> - <i>{this.size} {this.type}</i>
+                        <b>CR {this.challenge_rating}</b> - <i>{this.size} {this.type}</i>
                     </div>
                     <div className={"creature-icon-buttons"}>
                         <i className={"eva eva-chevron-up-outline"} onClick={this.moveUp} />
@@ -401,11 +381,14 @@ class AddedCreature extends React.Component {
 }
 
 class EncounterBuilder extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return(
             <Router>
                 <div className="App-body" id="encounter-body">
-                    <Encounter />
+                    <Encounter creatureSummary={this.props.creatureSummary} />
                 </div>
             </Router>
         )
@@ -433,7 +416,22 @@ function Home(props) {
 class App extends React.Component {
     constructor(props) {
         super(props);
+
+        this.creatureSummary = []
+
+        for (let item of creatureList) {
+            let tmpCreature = {
+                name: item.name,
+                size: item.size,
+                type: item.type,
+                hit_points: item.hit_points,
+                challenge_rating: item.challenge_rating
+            }
+
+            this.creatureSummary.push(tmpCreature)
+        }
     }
+
     handleClick() {
 
     }
@@ -455,7 +453,7 @@ class App extends React.Component {
 
                     <Switch>    {/* main content */}
                         <Route path="/builder">
-                            <EncounterBuilder />
+                            <EncounterBuilder creatureSummary={this.creatureSummary} />
                         </Route>
                         <Route path="/library">
                     
