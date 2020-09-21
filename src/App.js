@@ -143,7 +143,7 @@ class EncounterCreaturesList extends React.Component {
             <div id={"creature-list-wrapper"}>
                 <div id={"creature-list-search-module"} >
                     <input type="text" id="creatureSearch" onChange={() => this.applyFilters()} placeholder="Search..." /><br />
-                    <label htmlFor={"creatureTypeFilter"}>Filter by type</label>
+                    <label htmlFor="creatureTypeFilter">Filter by type</label>
                     <select name="creatureTypes" id="creatureTypeFilter" onChange={() => this.applyFilters()}>
                         <option value="all">All</option>
                         <option value="aberration">Aberration</option>
@@ -160,6 +160,12 @@ class EncounterCreaturesList extends React.Component {
                         <option value="plant">Plant</option>
                         <option value="undead">Undead</option>
                     </select>
+                    <label htmlFor="minCR">Min CR:</label>
+                    <input type="number" id="minCR" onChange={() => this.applyFilters()} placeholder="0" /><br />
+                    {/*TODO: replace with actual max CR*/}
+                    <label htmlFor="maxCR">Max CR:</label>
+                    <input type="number" id="maxCR" onChange={() => this.applyFilters()} placeholder="200" /><br />
+
                 </div>
                 <div id={"creature-list"}>
                     <div id={"matching-creature-list"}>
@@ -177,6 +183,39 @@ class EncounterCreaturesList extends React.Component {
         this.applyFilters();
     }
 
+    matchesSearch(searchTerm, item) {
+        if (item.name.toLowerCase().includes(searchTerm)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    matchesFilterType(type, item, filterTypeIsAll) {
+        if (filterTypeIsAll) {
+            return true
+        } else if (item.type === type) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    matchesCRRange(minCR, maxCR, item) {
+        if (minCR === '') {
+            minCR = 0
+        }
+        if (maxCR === '') {
+            maxCR = 200
+        }
+        console.log(minCR + " " + maxCR)
+        if (parseInt(item.challenge_rating) >= minCR && parseInt(item.challenge_rating) <= maxCR) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     applyFilters() {
         document.getElementById('creature-list').scrollTop = 0;
         let matchingList = []
@@ -184,23 +223,23 @@ class EncounterCreaturesList extends React.Component {
 
         let searchTerm = document.getElementById('creatureSearch').value
         let type = document.getElementById('creatureTypeFilter').value
+        let minCR = document.getElementById('minCR').value
+        let maxCR = document.getElementById('maxCR').value
         let typeFilterIsAll = type === 'all'
 
         this.creatureSummary.forEach(item=>{
-            if (item.name.toLowerCase().includes(searchTerm)) {
-                //add to match if the type filter is all, or if it isn't and the type matches
-                if ((!typeFilterIsAll && item.type === type) || typeFilterIsAll) {
-                    matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
 
-                } else { //type filter is on, but item doesn't match type
-                    notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
-                }
-            } else { //doesn't match search term, filter N/A
+            let matchesSearch = this.matchesSearch(searchTerm, item)
+            let matchesType = this.matchesFilterType(type, item, typeFilterIsAll)
+            let matchesCR = this.matchesCRRange(minCR, maxCR, item)
+
+            if (matchesSearch && matchesType && matchesCR) {
+                matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
+            } else {
                 notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
-
             }
+
         })
-        
         this.setState({matching: matchingList, notMatching: notMatchingList})
     }
 }
