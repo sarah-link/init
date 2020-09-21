@@ -157,15 +157,17 @@ class EncounterCreaturesList extends React.Component {
             })
         }
         return (
-            <div>
-                <input type="text" id="creatureSearch" onInput={() => this.search()} placeholder="Search..." /><br />
-                <label htmlFor={"creatureTypeFilter"}>Filter by type</label>
-                <select name="creatureTypes" id="creatureTypeFilter">
-                    <option value="all">All</option>
-                    <option value="humanoid">Humanoid</option>
-                    <option value="ooze">Ooze</option>
-                    <option value="undead">Undead</option>
-                </select>
+            <div id={"creature-list-wrapper"}>
+                <div id={"creature-list-search-module"} >
+                    <input type="text" id="creatureSearch" onInput={() => this.search()} placeholder="Search..." /><br />
+                    <label htmlFor={"creatureTypeFilter"}>Filter by type</label>
+                    <select name="creatureTypes" id="creatureTypeFilter">
+                        <option value="all">All</option>
+                        <option value="humanoid">Humanoid</option>
+                        <option value="ooze">Ooze</option>
+                        <option value="undead">Undead</option>
+                    </select>
+                </div>
                 <div id={"creature-list"}>
                     <div id={"matching-creature-list"}>
                         {itemList}
