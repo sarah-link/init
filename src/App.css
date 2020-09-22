@@ -225,9 +225,43 @@
 }
 
 #creature-list-search-module {
-  flex: 1;
+  /*flex: 1;*/
   position: relative;
-  top: 13px;
+  /*top: 13px;*/
+  padding:10px;
+}
+
+#creature-filters {
+  display: flex;
+  width:100%;
+  align-items: flex-start;
+  font-size: 18px;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+#creature-filters select {
+  height: 30px;
+  width: 150px;
+}
+
+#creature-filters label {
+  margin: 0;
+}
+
+#creature-filters-type {
+  width: auto;
+}
+
+#creature-filters-CR-selector {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#creature-filters-CR-selector input {
+  width: 45px;
+  height: 30px;
 }
 
 #creature-list {
@@ -297,6 +331,10 @@
   font-size: 24px;
   padding-bottom: 2px;
   margin-bottom: 0px;
+}
+
+.creature-name b {
+  font-weight: 500;
 }
 
 .creature-info {

@@ -126,6 +126,32 @@ function getCreatureIcon(creatureType) {
     }
 }
 
+function parseCR(CR) {
+    switch (CR) {
+        case "1/8":
+            return 0.125;
+        case "1/4":
+            return 0.25;
+        case "1/2":
+            return 0.5;
+        default:
+            return parseInt(CR);
+    }
+}
+
+function displayCR(CR) {
+    switch (CR) {
+        case "1/8":
+            return "⅛";
+        case "1/4":
+            return "¼";
+        case "1/2":
+            return "½";
+        default:
+            return CR;
+    }
+}
+
 class EncounterCreaturesList extends React.Component {
     constructor(props) {
         super(props);
@@ -143,28 +169,46 @@ class EncounterCreaturesList extends React.Component {
             <div id={"creature-list-wrapper"}>
                 <div id={"creature-list-search-module"} >
                     <input type="text" id="creatureSearch" onChange={() => this.applyFilters()} placeholder="Search..." /><br />
-                    <label htmlFor="creatureTypeFilter">Filter by type</label>
-                    <select name="creatureTypes" id="creatureTypeFilter" onChange={() => this.applyFilters()}>
-                        <option value="all">All</option>
-                        <option value="aberration">Aberration</option>
-                        <option value="beast">Beast</option>
-                        <option value="celestial">Celestial</option>
-                        <option value="construct">Construct</option>
-                        <option value="dragon">Dragon</option>
-                        <option value="elemental">Elemental</option>
-                        <option value="fey">Fey</option>
-                        <option value="giant">Giant</option>
-                        <option value="humanoid">Humanoid</option>
-                        <option value="monstrosity">Monstrosity</option>
-                        <option value="ooze">Ooze</option>
-                        <option value="plant">Plant</option>
-                        <option value="undead">Undead</option>
-                    </select>
-                    <label htmlFor="minCR">Min CR:</label>
-                    <input type="number" id="minCR" onChange={() => this.applyFilters()} placeholder="0" /><br />
-                    {/*TODO: replace with actual max CR*/}
-                    <label htmlFor="maxCR">Max CR:</label>
-                    <input type="number" id="maxCR" onChange={() => this.applyFilters()} placeholder="200" /><br />
+
+                    <div id={"creature-filters"}>
+
+                        <div id={"creature-filters-type"}>
+                            {/*<label htmlFor="creatureTypeFilter">Filter by type</label>*/}
+                            <select name="creatureTypes" id="creatureTypeFilter" onChange={() => this.applyFilters()}>
+                                <option disabled={"yes"} selected={"yes"} value={"all"}>Creature Type</option>
+                                <option value="all">All</option>
+                                <option value="aberration">Aberration</option>
+                                <option value="beast">Beast</option>
+                                <option value="celestial">Celestial</option>
+                                <option value="construct">Construct</option>
+                                <option value="dragon">Dragon</option>
+                                <option value="elemental">Elemental</option>
+                                <option value="fey">Fey</option>
+                                <option value="giant">Giant</option>
+                                <option value="humanoid">Humanoid</option>
+                                <option value="monstrosity">Monstrosity</option>
+                                <option value="ooze">Ooze</option>
+                                <option value="plant">Plant</option>
+                                <option value="undead">Undead</option>
+                            </select>
+                        </div>
+
+                        <div id={"creature-filters-CR"}>
+                            {/*<div>*/}
+                            {/*    CR:*/}
+                            {/*</div>*/}
+                            <div id={"creature-filters-CR-selector"}>
+                                {/*<label htmlFor="minCR">Min CR:</label>*/}
+                                <input type="number" id="minCR" onChange={() => this.applyFilters()} defaultValue={"0"} min={"0"} max={"30"} /><br />
+
+                                <div>&nbsp;to&nbsp;</div>
+                                {/*<label htmlFor="maxCR">Max CR:</label>*/}
+                                <input type="number" id="maxCR" onChange={() => this.applyFilters()} defaultValue={"30"} min={"0"} max={"30"} /><br />
+                            </div>
+                        </div>
+
+                    </div>
+
 
                 </div>
                 <div id={"creature-list"}>
@@ -209,7 +253,7 @@ class EncounterCreaturesList extends React.Component {
             maxCR = 200
         }
         console.log(minCR + " " + maxCR)
-        if (parseInt(item.challenge_rating) >= minCR && parseInt(item.challenge_rating) <= maxCR) {
+        if (parseCR(item.challenge_rating) >= minCR && parseCR(item.challenge_rating) <= maxCR) {
             return true
         } else {
             return false
@@ -278,7 +322,7 @@ class Encounter extends React.Component {
                     <AddedCreature key={key} id={key} name={value.name} size={value.size} type={value.type} hit_points={value.hit_points} challenge_rating={value.challenge_rating}
                                    removeCreature={this.removeCreature} moveCreatureUp={this.moveCreatureUp} moveCreatureDown={this.moveCreatureDown}/>
                 );
-                totalCR += parseInt(value.challenge_rating);
+                totalCR += parseCR(value.challenge_rating);
             }
         }
         return (
@@ -398,7 +442,7 @@ class Creature extends React.Component {
                 </div>
 
                 <div className={"creature-info"}>
-                    <span>CR: {this.state.challenge_rating}</span>
+                    <span>CR: {displayCR(this.state.challenge_rating)}</span>
                     <span>HP: {this.state.hit_points}</span>
                 </div>
             </div>
@@ -440,7 +484,7 @@ class AddedCreature extends React.Component {
                     <div className={"bubble"}><i className={getCreatureIcon(this.type)} /></div>
                     <div className={"creature-name"}>
                         <h4>{this.name}&nbsp;{this.id}</h4>
-                        <b>CR {this.challenge_rating}</b> - <i>{this.size} {this.type}</i>
+                        <b>CR {displayCR(this.challenge_rating)}</b> - <i>{this.size} {this.type}</i>
                     </div>
                     <div className={"creature-icon-buttons"}>
                         <i className={"eva eva-chevron-up-outline"} onClick={this.moveUp} />
