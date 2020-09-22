@@ -242,7 +242,7 @@
 
 #creature-filters select {
   height: 30px;
-  width: 150px;
+  width: 130px;
 }
 
 #creature-filters label {
@@ -253,13 +253,13 @@
   width: auto;
 }
 
-#creature-filters-CR-selector {
+#creature-filters-CR{
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-#creature-filters-CR-selector input {
+#creature-filters-CR input {
   width: 45px;
   height: 30px;
 }
@@ -271,6 +271,7 @@
   border-right: 2px solid #199473;
   border-left: 2px solid #199473;
   background-color: #F0F4F8;
+  /*background-color: #65D6AD;*/
   box-shadow: 0px 2px 8px rgba(0,0,0,0.18);
   text-align: left;
   flex: 12;
@@ -333,8 +334,27 @@
   margin-bottom: 0px;
 }
 
+.creature-name-field {
+  display: flex;
+  flex-direction: row;
+}
+
+.creature-name input {
+  background-color: transparent;
+  border: none;
+}
+
 .creature-name b {
   font-weight: 500;
+}
+
+.creature-name .edit-button {
+  opacity: 0;
+  transition: all 0.025s ease-out;
+}
+
+.added-creature:hover .edit-button {
+  opacity: 0.9;
 }
 
 .creature-info {
@@ -343,18 +363,20 @@
 }
 
 .creature-spacer {
-  padding: 5px;
-  font-weight: 500;
+  padding: 0 5px 5px 5px;
+  /*font-weight: 500;*/
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   color: #014D40;
+  font-size: 16px;
+  /*background-color: #65D6AD;*/
 }
 
 .creature-spacer::after {
   content: '';
-  height: 2px;
+  height: 1px;
   background-color: #014D40;
   flex:1;
   margin: 0 10px 0 10px;

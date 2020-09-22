@@ -4,6 +4,7 @@ import './resources/rpg-awesome/css/rpg-awesome.css';
 import './resources/eva-icons/style/eva-icons.css';
 import creaturesJSON from './data/monsters.json';
 import encounterCreaturesJSON from './data/defaultEncounterCreatures.json';
+import Modal from 'react-bootstrap/Modal';
 import {
     BrowserRouter as Router,
     Switch,
@@ -57,15 +58,15 @@ class SideNav extends React.Component {
         this.setState({isOpen: !this.state.isOpen})
     }
     render() {
+        let collapseID = ''
         if (this.state.isOpen === true) {
-            return (
-                <div className={"sidenav"} id={"sidenav-expanded"}>
-                    <i className={"eva eva-arrow-ios-forward navbar-button"} id={"menu-button"} onClick={() => this.toggleSidebar()} />
-                </div>
-            )
+            collapseID = "sidenav-expanded"
+        } else {
+            collapseID = "sidenav-collapsed"
         }
+
         return (
-            <div className={"sidenav"} id={"sidenav-collapsed"}>
+            <div className={"sidenav"} id={collapseID}>
                 <i className={"eva eva-arrow-ios-forward navbar-button"} id={"menu-button"} onClick={() => this.toggleSidebar()} />
             </div>
         )
@@ -160,7 +161,8 @@ class EncounterCreaturesList extends React.Component {
         super(props);
         this.state = {
             matching: [],
-            notMatching: []
+            notMatching: [],
+            sortFn: 'alpha'
         }
 
         this.creatureSummary = this.props.creatureSummary;
@@ -211,7 +213,6 @@ class EncounterCreaturesList extends React.Component {
                             <div>&nbsp;to&nbsp;</div>
                             <input type="number" id="maxCR" onChange={() => this.applyFilters()} defaultValue={"30"} min={"0"} max={"30"} /><br />
                         </div>
-
                     </div>
 
 
@@ -279,6 +280,7 @@ class EncounterCreaturesList extends React.Component {
         document.getElementById('creature-list').scrollTop = 0;
         let matchingList = []
         let notMatchingList = []
+        let prevAlpha = ''
 
         let searchTerm = document.getElementById('creatureSearch').value
         let type = document.getElementById('creatureTypeFilter').value
@@ -296,6 +298,11 @@ class EncounterCreaturesList extends React.Component {
             let matchesSize = this.matchesFilterSize(size, item, sizeFilterIsAll)
 
             if (matchesSearch && matchesType && matchesCR && matchesSize) {
+                if (item.name.charAt(0) !== prevAlpha) { // add the alphabetical sort spacers if this creature starts with a new letter
+                    console.log("char: " + item.name.charAt(0))
+                    prevAlpha = item.name.charAt(0)
+                    matchingList.push( <CreatureSpacer text={prevAlpha} /> )
+                }
                 matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
             } else {
                 notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
@@ -476,37 +483,50 @@ class Creature extends React.Component {
 class AddedCreature extends React.Component {
     constructor(props) {
         super(props);
-        this.id = props.id
-        this.name = props.name
-        this.index = props.index
-        this.size = props.size
-        this.type = props.type
-        this.hit_points = props.hit_points
-        this.challenge_rating = props.challenge_rating
+        this.state = {
+            id : props.id,
+            name : props.name,
+            displayName : props.name,
+            index : props.index,
+            size : props.size,
+            type : props.type,
+            hit_points : props.hit_points,
+            challenge_rating : props.challenge_rating
+        }
     }
 
     remove = () => {
-        this.props.removeCreature(this.id);
+        this.props.removeCreature(this.state.id);
     }
 
     moveUp = () => {
-        this.props.moveCreatureUp(this.id);
+        this.props.moveCreatureUp(this.state.id);
     }
 
     moveDown = () => {
-        this.props.moveCreatureDown(this.id);
+        this.props.moveCreatureDown(this.state.id);
+    }
+
+    editCreature = () => {
+
     }
 
 
 
     render() {
+        console.log("name: " + this.state.name)
+        console.log("displayName: " + this.state.displayName)
         return (
             <div className={"added-creature"}>
                 <span>
-                    <div className={"bubble"}><i className={getCreatureIcon(this.type)} /></div>
+                    <div className={"bubble"}><i className={getCreatureIcon(this.state.type)} /></div>
                     <div className={"creature-name"}>
-                        <h4>{this.name}&nbsp;{this.id}</h4>
-                        <b>CR {displayCR(this.challenge_rating)}</b> - <i>{this.size} {this.type}</i>
+                        <h4 className={"creature-name-field"}>
+                            {this.state.name}&nbsp;{this.state.id}
+                            {/*<input type={"text"} defaultValue={this.state.displayName} size={"20"} onChange={event => this.setState({displayName: event.target.value})} />*/}
+                            <i className={"eva eva-edit-2-outline edit-button"} onClick={this.editCreature}/>
+                        </h4>
+                        <b>CR {displayCR(this.state.challenge_rating)}</b> - <i>{this.state.size} {this.state.type}</i>
                     </div>
                     <div className={"creature-icon-buttons"}>
                         <i className={"eva eva-chevron-up-outline"} onClick={this.moveUp} />
@@ -595,7 +615,6 @@ class App extends React.Component {
                             <EncounterBuilder creatureSummary={this.creatureSummary} />
                         </Route>
                         <Route path="/manager">
-                            <EncounterManager />
                         </Route>
                         <Route path="/library">
                         </Route>
@@ -610,33 +629,6 @@ class App extends React.Component {
                 </div>
             </Router>
         );
-    }
-}
-
-//        for (let item of creatureList) {
-//             let tmpCreature = {
-//                 name: item.name,
-//                 size: item.size,
-//                 type: item.type,
-//                 hit_points: item.hit_points,
-//                 challenge_rating: item.challenge_rating
-//             }
-//
-//             this.creatureSummary.push(tmpCreature)
-
-class EncounterManager extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
-    render() {
-        return(
-            <Router>
-                <div className="App-body" id="encounter-body">
-                    hello
-                </div>
-            </Router>
-        )
     }
 }
 
