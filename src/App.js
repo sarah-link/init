@@ -3,6 +3,7 @@ import './App.css';
 import './resources/rpg-awesome/css/rpg-awesome.css';
 import './resources/eva-icons/style/eva-icons.css';
 import creaturesJSON from './data/monsters.json';
+import encounterCreaturesJSON from './data/defaultEncounterCreatures.json';
 import {
     BrowserRouter as Router,
     Switch,
@@ -12,6 +13,7 @@ import {
 import onClickOutside from "react-onclickoutside";
 
 let creatureList = creaturesJSON.creatures;
+let encounterCreatureList = encounterCreaturesJSON.creatures;
 
 function NavBar() {
     return(
@@ -82,6 +84,7 @@ class MainButtonDiv extends React.Component {
         return (
             <div id={"menuButtons"} >
                 <Button text={"Create Encounter"} className={"main-button"} url={"/builder"} />
+                <Button text={"View Saved Encounters"} className={"main-button"} url={"/manager"} />
                 <Button text={"Manage Library"} className={"main-button"} url={"/library"} />
                 <Button text={"Join Encounter"} className={"main-button"} url={"/join"} />
             </div>
@@ -164,7 +167,6 @@ class EncounterCreaturesList extends React.Component {
     }
 
     render() {
-        console.log("render")
         return (
             <div id={"creature-list-wrapper"}>
                 <div id={"creature-list-search-module"} >
@@ -191,20 +193,23 @@ class EncounterCreaturesList extends React.Component {
                                 <option value="plant">Plant</option>
                                 <option value="undead">Undead</option>
                             </select>
+                            <select name="creatureSizes" id="creatureSizeFilter" onChange={() => this.applyFilters()}>
+                                <option disabled={"yes"} selected={"yes"} value={"all"}>Creature Size</option>
+                                <option value="all">All</option>
+                                <option value="tiny">Tiny</option>
+                                <option value="small">Small</option>
+                                <option value="medium">Medium</option>
+                                <option value="large">Large</option>
+                                <option value="huge">Huge</option>
+                                <option value="gargantuan">Gargantuan</option>
+                            </select>
                         </div>
 
                         <div id={"creature-filters-CR"}>
-                            {/*<div>*/}
-                            {/*    CR:*/}
-                            {/*</div>*/}
-                            <div id={"creature-filters-CR-selector"}>
-                                {/*<label htmlFor="minCR">Min CR:</label>*/}
-                                <input type="number" id="minCR" onChange={() => this.applyFilters()} defaultValue={"0"} min={"0"} max={"30"} /><br />
+                            <input type="number" id="minCR" onChange={() => this.applyFilters()} defaultValue={"0"} min={"0"} max={"30"} /><br />
 
-                                <div>&nbsp;to&nbsp;</div>
-                                {/*<label htmlFor="maxCR">Max CR:</label>*/}
-                                <input type="number" id="maxCR" onChange={() => this.applyFilters()} defaultValue={"30"} min={"0"} max={"30"} /><br />
-                            </div>
+                            <div>&nbsp;to&nbsp;</div>
+                            <input type="number" id="maxCR" onChange={() => this.applyFilters()} defaultValue={"30"} min={"0"} max={"30"} /><br />
                         </div>
 
                     </div>
@@ -238,7 +243,17 @@ class EncounterCreaturesList extends React.Component {
     matchesFilterType(type, item, filterTypeIsAll) {
         if (filterTypeIsAll) {
             return true
-        } else if (item.type === type) {
+        } else if (item.type.toLowerCase() === type) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    matchesFilterSize(size, item, filterTypeIsAll) {
+        if (filterTypeIsAll) {
+            return true
+        } else if (item.size.toLowerCase() === size) {
             return true
         } else {
             return false
@@ -267,17 +282,20 @@ class EncounterCreaturesList extends React.Component {
 
         let searchTerm = document.getElementById('creatureSearch').value
         let type = document.getElementById('creatureTypeFilter').value
+        let size = document.getElementById('creatureSizeFilter').value
         let minCR = document.getElementById('minCR').value
         let maxCR = document.getElementById('maxCR').value
         let typeFilterIsAll = type === 'all'
+        let sizeFilterIsAll = size === 'all'
 
         this.creatureSummary.forEach(item=>{
 
             let matchesSearch = this.matchesSearch(searchTerm, item)
             let matchesType = this.matchesFilterType(type, item, typeFilterIsAll)
             let matchesCR = this.matchesCRRange(minCR, maxCR, item)
+            let matchesSize = this.matchesFilterSize(size, item, sizeFilterIsAll)
 
-            if (matchesSearch && matchesType && matchesCR) {
+            if (matchesSearch && matchesType && matchesCR && matchesSize) {
                 matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
             } else {
                 notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature}/>)
@@ -331,7 +349,11 @@ class Encounter extends React.Component {
 
                 <div id="encounter-list">
                     <h1>
-                        Add Creatures to Encounter
+                        Add Creatures to
+                        <br/>
+                        <div>
+                            <input type="text" id="encounterName" defaultValue="Encounter"/>
+                        </div>
                     </h1>
 
                     Encounter CR : {totalCR}
@@ -572,8 +594,10 @@ class App extends React.Component {
                         <Route path="/builder">
                             <EncounterBuilder creatureSummary={this.creatureSummary} />
                         </Route>
+                        <Route path="/manager">
+                            <EncounterManager />
+                        </Route>
                         <Route path="/library">
-                    
                         </Route>
                         <Route path="/join">
                     
@@ -586,6 +610,33 @@ class App extends React.Component {
                 </div>
             </Router>
         );
+    }
+}
+
+//        for (let item of creatureList) {
+//             let tmpCreature = {
+//                 name: item.name,
+//                 size: item.size,
+//                 type: item.type,
+//                 hit_points: item.hit_points,
+//                 challenge_rating: item.challenge_rating
+//             }
+//
+//             this.creatureSummary.push(tmpCreature)
+
+class EncounterManager extends React.Component {
+    constructor(props) {
+        super(props);
+
+    }
+    render() {
+        return(
+            <Router>
+                <div className="App-body" id="encounter-body">
+                    hello
+                </div>
+            </Router>
+        )
     }
 }
 
