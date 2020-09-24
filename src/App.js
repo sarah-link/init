@@ -3,7 +3,7 @@ import './App.css';
 import './resources/rpg-awesome/css/rpg-awesome.css';
 import './resources/eva-icons/style/eva-icons.css';
 import creaturesJSON from './data/monsters.json';
-import encounterCreaturesJSON from './data/defaultEncounterCreatures.json';
+// import encounterCreaturesJSON from './data/defaultEncounterCreatures.json';
 import Modal from 'react-bootstrap/Modal';
 import {
     BrowserRouter as Router,
@@ -14,7 +14,7 @@ import {
 import onClickOutside from "react-onclickoutside";
 
 let creatureList = creaturesJSON.creatures;
-let encounterCreatureList = encounterCreaturesJSON.creatures;
+// let encounterCreatureList = encounterCreaturesJSON.creatures;
 
 function NavBar() {
     return(
@@ -493,7 +493,8 @@ class AddedCreature extends React.Component {
             hit_points : props.hit_points,
             challenge_rating : props.challenge_rating,
 
-            isEditing: false
+            // isEditing: false,
+            isEditingName: false
         }
     }
 
@@ -511,7 +512,7 @@ class AddedCreature extends React.Component {
 
     render() {
         let creatureName
-        if (this.state.isEditing) {
+        if (this.state.isEditingName) {
             creatureName = <CreatureInput type={"text"} size={"17"} value={this.state.displayName} updateFunction={this.updateDisplayName} autoFocus={"yes"} />
         } else {
             creatureName = <span>{this.state.displayName} <i className={"eva eva-edit-2-outline edit-button"} onClick={this.editName}/></span>
@@ -538,11 +539,11 @@ class AddedCreature extends React.Component {
     }
 
     editName = () => {
-        this.setState({isEditing: true})
+        this.setState({isEditingName: true})
     }
 
     updateDisplayName = (newDisplayName) => {
-        this.setState({displayName: newDisplayName, isEditing: false})
+        this.setState({displayName: newDisplayName, isEditingName: false})
         console.log("updated displayName")
     }
 }
