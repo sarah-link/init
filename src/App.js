@@ -491,7 +491,9 @@ class AddedCreature extends React.Component {
             size : props.size,
             type : props.type,
             hit_points : props.hit_points,
-            challenge_rating : props.challenge_rating
+            challenge_rating : props.challenge_rating,
+
+            isEditing: false
         }
     }
 
@@ -507,24 +509,21 @@ class AddedCreature extends React.Component {
         this.props.moveCreatureDown(this.state.id);
     }
 
-    editCreature = () => {
-
-    }
-
-
-
     render() {
-        console.log("name: " + this.state.name)
-        console.log("displayName: " + this.state.displayName)
+        let creatureName
+        if (this.state.isEditing) {
+            creatureName = <CreatureNameInput displayName={this.state.displayName} updateFunction={this.updateDisplayName} />
+        } else {
+            creatureName = <span>{this.state.displayName} <i className={"eva eva-edit-2-outline edit-button"} onClick={this.editName}/></span>
+        }
+
         return (
             <div className={"added-creature"}>
                 <span>
                     <div className={"bubble"}><i className={getCreatureIcon(this.state.type)} /></div>
                     <div className={"creature-name"}>
                         <h4 className={"creature-name-field"}>
-                            {this.state.name}&nbsp;{this.state.id}
-                            {/*<input type={"text"} defaultValue={this.state.displayName} size={"20"} onChange={event => this.setState({displayName: event.target.value})} />*/}
-                            <i className={"eva eva-edit-2-outline edit-button"} onClick={this.editCreature}/>
+                            {creatureName}
                         </h4>
                         <b>CR {displayCR(this.state.challenge_rating)}</b> - <i>{this.state.size} {this.state.type}</i>
                     </div>
@@ -536,6 +535,44 @@ class AddedCreature extends React.Component {
                 <i className={"eva eva-close-outline delete-button"} onClick={this.remove} />
             </div>
         );
+    }
+
+    editName = () => {
+        this.setState({isEditing: true})
+    }
+
+    updateDisplayName = (newDisplayName) => {
+        this.setState({displayName: newDisplayName, isEditing: false})
+        console.log("updated displayName")
+    }
+}
+
+class CreatureNameInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            input: this.props.displayName
+        }
+    }
+
+    updateDisplayName = () => {
+        this.props.updateFunction(this.state.input)
+    };
+
+    updateInput = (ev) => {
+        this.setState({input: ev.target.value})
+    }
+
+    handleKeyPress = (ev) => {
+        if (ev.key === 'Enter') {
+            this.updateDisplayName()
+        }
+    }
+
+    render() {
+        return (
+            <input type={"text"} defaultValue={this.props.displayName} size={"17"} onChange={this.updateInput} autoFocus={"yes"} onBlur={this.updateDisplayName} onKeyDown={this.handleKeyPress} />
+        )
     }
 }
 

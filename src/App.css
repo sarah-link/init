@@ -329,6 +329,7 @@
 .creature-name h4 {
   border-bottom: 2px dashed #147D64;
   font-style: normal;
+  font-weight: 500;
   font-size: 24px;
   padding-bottom: 2px;
   margin-bottom: 0px;
@@ -342,6 +343,14 @@
 .creature-name input {
   background-color: transparent;
   border: none;
+  font-weight: 500;
+  color: #212529;
+  padding: 0;
+}
+
+.creature-name input:focus {
+  outline: none;
+  background-color: #81D59B;
 }
 
 .creature-name b {
