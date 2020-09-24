@@ -512,7 +512,7 @@ class AddedCreature extends React.Component {
     render() {
         let creatureName
         if (this.state.isEditing) {
-            creatureName = <CreatureNameInput displayName={this.state.displayName} updateFunction={this.updateDisplayName} />
+            creatureName = <CreatureInput type={"text"} size={"17"} value={this.state.displayName} updateFunction={this.updateDisplayName} autoFocus={"yes"} />
         } else {
             creatureName = <span>{this.state.displayName} <i className={"eva eva-edit-2-outline edit-button"} onClick={this.editName}/></span>
         }
@@ -547,15 +547,15 @@ class AddedCreature extends React.Component {
     }
 }
 
-class CreatureNameInput extends React.Component {
+class CreatureInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            input: this.props.displayName
+            input: this.props.value
         }
     }
 
-    updateDisplayName = () => {
+    updateValue = () => {
         this.props.updateFunction(this.state.input)
     };
 
@@ -565,13 +565,13 @@ class CreatureNameInput extends React.Component {
 
     handleKeyPress = (ev) => {
         if (ev.key === 'Enter') {
-            this.updateDisplayName()
+            this.updateValue()
         }
     }
 
     render() {
         return (
-            <input type={"text"} defaultValue={this.props.displayName} size={"17"} onChange={this.updateInput} autoFocus={"yes"} onBlur={this.updateDisplayName} onKeyDown={this.handleKeyPress} />
+            <input type={this.props.type} defaultValue={this.props.value} size={this.props.size} onChange={this.updateInput} autoFocus={this.props.autoFocus} onBlur={this.updateValue} onKeyDown={this.handleKeyPress} />
         )
     }
 }
