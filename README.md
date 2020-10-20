@@ -1,3 +1,11 @@
-# init
+# Overview
 do this later
-hello let's make sure I can push
+
+# Installation
+Bootstrap
+
+    npm install react-bootstrap bootstrap
+    
+React-dom
+
+    npm install react react-dom
