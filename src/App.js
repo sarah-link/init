@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState, useEffect} from 'react';
 import './App.css';
 import './resources/rpg-awesome/css/rpg-awesome.css';
 import './resources/eva-icons/style/eva-icons.css';
@@ -592,7 +592,20 @@ class EncounterBuilder extends React.Component {
     }
 }
 
-function Home(props) {
+function Home (props) {
+    const [data, setData] = useState([])
+
+    const fetchData = async () => {
+        const result = await fetch("/test_table/")
+        const jsonData = await result.json()
+
+        setData(jsonData)
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
     return (
         <div className="App-body" id="home-body">
             <div className="App-header">
@@ -605,9 +618,19 @@ function Home(props) {
                 </h4>
             </div>
 
-            <MainButtons />
+            <MainButtons/>
+
+            <Fragment>
+                {data.map(entry => (
+                    <div>
+                        <b>{entry.name}</b>: {entry.description}
+                    </div>
+                ))}
+            </Fragment>
         </div>
     )
+
+
 }
 
 class App extends React.Component {
@@ -641,10 +664,10 @@ class App extends React.Component {
 
                     <Switch>    {/* overlays and popups} */}
                         <Route path="/login">
-                        
+
                         </Route>
                         <Route path="/signup">
-                    
+
                         </Route>
                     </Switch>
 
@@ -657,7 +680,7 @@ class App extends React.Component {
                         <Route path="/library">
                         </Route>
                         <Route path="/join">
-                    
+
                         </Route>
                         <Route exact path="/">
                             <Home />
