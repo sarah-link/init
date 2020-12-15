@@ -122,6 +122,17 @@
   box-shadow: 0px 2px 20px rgba(0,0,0,0.30)
 }
 
+#remove-button {
+  margin: 10px;
+  padding: 10px 20px 10px 20px;
+  width: auto;
+  font-size: 24px;
+}
+
+#remove-button:hover {
+  cursor: pointer;
+}
+
 .navbar-button {
   text-decoration: none;
   text-align: center;
@@ -485,12 +496,20 @@
   left: 1px;
 }
 
-.bubble .ra-angel-wings, .bubble .ra-beetle, .bubble .ra-desert-skull, .bubble .ra-wyvern {
+.bubble .ra-angel-wings, .bubble .ra-desert-skull, .bubble .ra-wyvern, .bubble .ra-batwings {
   top: 1px;
 }
 
 .bubble .ra-reactor {
   top: -1px;
+}
+
+.bubble .ra-reactor, .bubble .ra-wyvern {
+  left: 0.5px;
+}
+
+.bubble .ra-lion {
+  left: 3px;
 }
 
 .added-creature .delete-button {

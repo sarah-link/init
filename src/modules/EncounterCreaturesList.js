@@ -34,6 +34,7 @@ class EncounterCreaturesList extends React.Component {
                                 <option value="dragon">Dragon</option>
                                 <option value="elemental">Elemental</option>
                                 <option value="fey">Fey</option>
+                                <option value="fiend">Fiend</option>
                                 <option value="giant">Giant</option>
                                 <option value="humanoid">Humanoid</option>
                                 <option value="monstrosity">Monstrosity</option>
