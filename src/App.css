@@ -476,6 +476,23 @@
   color: #014D40;
 }
 
+.bubble i {
+  position: relative;
+}
+
+/*Creature Icon adjustments*/
+.bubble .ra-octopus, .bubble .ra-fairy {
+  left: 1px;
+}
+
+.bubble .ra-angel-wings, .bubble .ra-beetle, .bubble .ra-desert-skull, .bubble .ra-wyvern {
+  top: 1px;
+}
+
+.bubble .ra-reactor {
+  top: -1px;
+}
+
 .added-creature .delete-button {
   position: relative;
   top: -20px;
