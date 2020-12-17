@@ -34,7 +34,7 @@ class Encounter extends React.Component {
                         Add Creatures to
                         <br/>
                         <div>
-                            <input type="text" id="encounterName" defaultValue="Encounter"/>
+                            <input type="text" id="encounterName" defaultValue="Encounter #1"/>
                         </div>
                     </h1>
 
@@ -46,7 +46,12 @@ class Encounter extends React.Component {
                         </div>
                     </div>
                     <div>
-                        <button onClick={this.removeAllCreatures}>Remove All</button>
+                        <div onClick={this.removeAllCreatures} className={"main-button"} id={"remove-button"}>
+                            <div className={"button-icon"}>
+                                <i className={"eva eva-trash-2-outline"} />
+                            </div>
+                            Remove All
+                        </div>
                     </div>
                 </div>
             </div>

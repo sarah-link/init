@@ -31,7 +31,7 @@
   background-color: #27AB83;
   background-image: linear-gradient(140deg, #cce66d, #6dbb86, #27AB83);
   width: 100%;
-  padding: 3em;
+  padding: 5em 3em 5em 3em;
   margin-bottom: 3em;
   /* border-top: solid 3px #147D64; */
   border-bottom: solid 3px #147D64;
@@ -39,14 +39,9 @@
 }
 
 .App-header h1 {
-  font-size: calc(15px + 5vmin);
+  font-size: 64px;
   font-weight: 500;
   margin-bottom: 0.2em;
-}
-
-.App-header h4 {
-  font-size: calc(15px + 2vmin);
-  font-weight: 300;
 }
 
 .App-body {
@@ -59,7 +54,7 @@
   text-align: center;
   align-items: center;
   /*justify-content: center;*/
-  font-size: calc(10px + 1.5vmin);
+  font-size: 22px;
   /*color: #102A43;*/
 
   box-shadow: 0px 0px 2px rgba(0,0,0,0.18);
@@ -95,7 +90,21 @@
   width: 100%;
 }
 
+#menu-button-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 0 20px;
+}
+
 .main-button {
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
   text-decoration: none;
   font-weight: 500;
   color: #F0F4F8;
@@ -104,7 +113,7 @@
   border-radius: 0.5em;
   background-color: #27AB83;
   /*background-color: #147D64;*/
-  margin-bottom: 0.75em;
+  margin-bottom: 1em;
   width: 12em;
   /*background-color: #61dafb;*/
 
@@ -122,15 +131,31 @@
   box-shadow: 0px 2px 20px rgba(0,0,0,0.30)
 }
 
+.button-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.button-icon i {
+  font-size: 1.75em;
+  padding: 0.3em 0 0.3em 0.3em;
+}
+
 #remove-button {
   margin: 10px;
-  padding: 10px 20px 10px 20px;
+  padding: 10px 15px 10px 15px;
   width: auto;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 #remove-button:hover {
   cursor: pointer;
+}
+
+#remove-button i {
+  padding: 0 5px 0 0;
+  font-size: 1.25em;
 }
 
 .navbar-button {

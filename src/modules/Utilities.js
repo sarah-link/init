@@ -20,9 +20,9 @@ function getCreatureIcon(creatureType) {
         case "giant":
             return "ra ra-muscle-fat";
         case "humanoid":
-            return "ra ra-archer";
+            return "ra ra-hand";
         case "monstrosity":
-            return "ra ra-beetle";
+            return "ra ra-lion";
         case "ooze":
             return "ra ra-ice-cube";
         case "plant":

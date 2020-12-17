@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import Button from "./Button";
 
 class MainButtons extends React.Component {
@@ -9,13 +9,17 @@ class MainButtons extends React.Component {
 
     render() {
         return (
-            <div id={"menuButtons"} >
-                <Button text={"Create Encounter"} className={"main-button"} url={"/builder"} />
-                <Button text={"View Saved Encounters"} className={"main-button"} url={"/manager"} />
-                <Button text={"Manage Library"} className={"main-button"} url={"/library"} />
-                <Button text={"Join Encounter"} className={"main-button"} url={"/join"} />
-            </div>
+            <div id={"menu-button-wrapper"}>
+                <div className={"menu-buttons"}>
+                    <Button text={"Create Encounter"} className={"main-button"} url={"/builder"} iconClassName={"eva eva-brush-outline"}/>
+                    <Button text={"Saved Encounters"} className={"main-button"} url={"/manager"} iconClassName={"eva eva-bookmark-outline"}/>
+                </div>
 
+                <div className={"menu-buttons"}>
+                    <Button text={"Manage Library"} className={"main-button"} url={"/library"} iconClassName={"eva eva-book-open-outline"}/>
+                    <Button text={"Join Encounter"} className={"main-button"} url={"/join"} iconClassName={"eva eva-play-circle-outline"}/>
+                </div>
+            </div>
         )
     }
 }

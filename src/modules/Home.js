@@ -22,9 +22,9 @@ function Home (props) {
                     <b>Roll Initiative!</b>
                 </h1>
 
-                <h4>
-                    A better way to roll initiative or something idk
-                </h4>
+                <p>
+                    Manage initiative without a virtual tabletop
+                </p>
             </div>
 
             <MainButtons/>
