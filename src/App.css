@@ -143,19 +143,40 @@
 }
 
 #remove-button {
-  margin: 10px;
+  margin: 10px 0 10px 0;
   padding: 10px 15px 10px 15px;
   width: auto;
   font-size: 18px;
+  line-height: 32px;
+  background-color: transparent;
+  border-color: #829AB1;
+  color: #829AB1;
+
+  transition: background-color 0.15s ease-in-out;
 }
 
 #remove-button:hover {
   cursor: pointer;
+  background-color: #BA2525;
+  border-color: #610404;
+  color: #F0F4F8;
 }
 
 #remove-button i {
   padding: 0 5px 0 0;
   font-size: 1.25em;
+}
+
+#advance-button {
+  width: auto;
+  margin: 10px 0 10px 0;
+  font-size: 18px;
+  text-align: right;
+  line-height: 32px;
+}
+
+#advance-button i {
+  padding: 0;
 }
 
 .navbar-button {
@@ -360,6 +381,7 @@
 .creature-name {
   /*font-style: italic;*/
   font-size: 16px;
+  color: #014D40;
 }
 
 .creature-name h4 {
@@ -369,6 +391,7 @@
   font-size: 24px;
   padding-bottom: 2px;
   margin-bottom: 0px;
+  color: #212529;
 }
 
 .creature-name-field {
@@ -450,6 +473,13 @@
 
 #added-creatures::-webkit-scrollbar {
   display: none;
+}
+
+#added-creatures-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .added-creature {

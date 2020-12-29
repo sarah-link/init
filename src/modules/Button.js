@@ -7,7 +7,7 @@ function Button(props) {
         icon = <div className={"button-icon"}><i className={props.iconClassName} /></div>
     }
     return(
-        <Link to={props.url} className={props.className}>
+        <Link to={props.url} id={props.id} className={props.className}>
             {icon}
             {props.text}
         </Link>

@@ -2,6 +2,7 @@ import React from "react";
 import EncounterCreaturesList from "./EncounterCreaturesList";
 import {getCreatureIcon, parseCR, displayCR} from "./Utilities";
 import AddedCreature from "./AddedCreature";
+import Button from "./Button";
 
 class Encounter extends React.Component {
     constructor(props) {
@@ -44,14 +45,17 @@ class Encounter extends React.Component {
                             <div id={"creature-add-btn"}>+</div>
                         </div>
                     </div>
-                    <div>
+                    <div id={"added-creatures-footer"}>
                         <div onClick={this.removeAllCreatures} className={"main-button"} id={"remove-button"}>
                             <div className={"button-icon"}>
                                 <i className={"eva eva-trash-2-outline"} />
                             </div>
                             Remove All
                         </div>
+
+                        <Button className={"main-button"} id={"advance-button"} iconClassName={"eva eva-arrow-right-outline"} />
                     </div>
+
                 </div>
             </div>
         )
