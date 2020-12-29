@@ -1,5 +1,5 @@
 import React from "react";
-import {displayCR} from "./Utilities";
+import {displayCR, displaySize} from "./Utilities";
 
 class Creature extends React.Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class Creature extends React.Component {
             <div className={"creature"} onClick={this.click}>
                 <div className={"creature-name"}>
                     <h4>{this.state.name}</h4>
-                    <i>{this.state.size} {this.state.type}</i>
+                    <i>{displaySize(this.state.size)} {this.state.type}</i>
                 </div>
 
                 <div className={"creature-info"}>

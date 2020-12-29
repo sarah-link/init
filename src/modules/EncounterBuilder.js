@@ -6,7 +6,7 @@ function EncounterBuilder (props) {
     const [creatureSummary, setCreatureSummary] = useState([])
 
     const fetchData = async () => {
-        const result = await fetch("/test_table/")
+        const result = await fetch("/creatureList/")
         const jsonData = await result.json()
 
         setCreatureSummary(jsonData)

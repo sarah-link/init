@@ -1,5 +1,5 @@
 import React from "react";
-import {getCreatureIcon, displayCR, parseCR} from "./Utilities";
+import {getCreatureIcon, displayCR, displaySize} from "./Utilities";
 
 class AddedCreature extends React.Component {
     constructor(props) {
@@ -47,7 +47,7 @@ class AddedCreature extends React.Component {
                         <h4 className={"creature-name-field"}>
                             {creatureName}
                         </h4>
-                        <b>CR {displayCR(this.state.challenge_rating)}</b> - <i>{this.state.size} {this.state.type}</i>
+                        <b>CR {displayCR(this.state.challenge_rating)}</b> - <i>{displaySize(this.state.size)} {this.state.type}</i>
                     </div>
                     <div className={"creature-icon-buttons"}>
                         <i className={"eva eva-chevron-up-outline"} onClick={this.moveUp} />

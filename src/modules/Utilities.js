@@ -60,4 +60,21 @@ function displayCR(CR) {
     }
 }
 
-export {getCreatureIcon, parseCR, displayCR}
+function displaySize(size) {
+    switch(size) {
+        case "T":
+            return "Tiny"
+        case "S":
+            return "Small"
+        case "M":
+            return "Medium"
+        case "L":
+            return "Large"
+        case "H":
+            return "Huge"
+        case "G":
+            return "Gargantuan"
+    }
+}
+
+export {getCreatureIcon, parseCR, displayCR, displaySize}

@@ -43,12 +43,12 @@ class EncounterCreaturesList extends React.Component {
                             <select name="creatureSizes" id="creatureSizeFilter" onChange={() => this.applyFilters()}>
                                 <option disabled={"yes"} selected={"yes"} value={"all"}>Creature Size</option>
                                 <option value="all">All</option>
-                                <option value="tiny">Tiny</option>
-                                <option value="small">Small</option>
-                                <option value="medium">Medium</option>
-                                <option value="large">Large</option>
-                                <option value="huge">Huge</option>
-                                <option value="gargantuan">Gargantuan</option>
+                                <option value="T">Tiny</option>
+                                <option value="S">Small</option>
+                                <option value="M">Medium</option>
+                                <option value="L">Large</option>
+                                <option value="H">Huge</option>
+                                <option value="G">Gargantuan</option>
                             </select>
                         </div>
 
@@ -79,6 +79,7 @@ class EncounterCreaturesList extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        // re compute list when creatureSummary is populated
         if (this.props.creatureSummary !== prevProps.creatureSummary) {
             this.applyFilters()
         }
@@ -106,7 +107,7 @@ class EncounterCreaturesList extends React.Component {
     matchesFilterSize(size, item, filterTypeIsAll) {
         if (filterTypeIsAll) {
             return true
-        } else if (item.size.toLowerCase() === size) {
+        } else if (item.size === size) {
             return true
         } else {
             return false
