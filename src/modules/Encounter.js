@@ -10,7 +10,6 @@ class Encounter extends React.Component {
             creatures: new Map(),
             id: 0
         };
-
     }
 
     render() {

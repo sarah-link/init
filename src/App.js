@@ -18,20 +18,6 @@ let creatureList = creaturesJSON.creatures;
 class App extends React.Component {
     constructor(props) {
         super(props);
-
-        this.creatureSummary = []
-
-        for (let item of creatureList) {
-            let tmpCreature = {
-                name: item.name,
-                size: item.size,
-                type: item.type,
-                hit_points: item.hit_points,
-                challenge_rating: item.challenge_rating
-            }
-
-            this.creatureSummary.push(tmpCreature)
-        }
     }
 
     handleClick() {
@@ -54,7 +40,7 @@ class App extends React.Component {
 
                     <Switch>    {/* main content */}
                         <Route path="/builder">
-                            <EncounterBuilder creatureSummary={this.creatureSummary} />
+                            <EncounterBuilder/>
                         </Route>
 
                         <Route path="/manager">

@@ -1,20 +1,28 @@
-import React from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {BrowserRouter as Router} from "react-router-dom";
 import Encounter from "./Encounter";
 
-class EncounterBuilder extends React.Component {
-    constructor(props) {
-        super(props);
+function EncounterBuilder (props) {
+    const [creatureSummary, setCreatureSummary] = useState([])
+
+    const fetchData = async () => {
+        const result = await fetch("/test_table/")
+        const jsonData = await result.json()
+
+        setCreatureSummary(jsonData)
     }
-    render() {
-        return(
-            <Router>
-                <div className="App-body" id="encounter-body">
-                    <Encounter creatureSummary={this.props.creatureSummary} />
-                </div>
-            </Router>
-        )
-    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    return(
+        <Router>
+            <div className="App-body" id="encounter-body">
+                <Encounter creatureSummary={creatureSummary} />
+            </div>
+        </Router>
+    )
 }
 
 export default EncounterBuilder

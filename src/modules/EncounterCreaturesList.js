@@ -10,8 +10,6 @@ class EncounterCreaturesList extends React.Component {
             notMatching: [],
             sortFn: 'alpha'
         }
-
-        this.creatureSummary = this.props.creatureSummary;
     }
 
     render() {
@@ -80,6 +78,13 @@ class EncounterCreaturesList extends React.Component {
         this.applyFilters();
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.creatureSummary !== prevProps.creatureSummary) {
+            this.applyFilters()
+        }
+
+    }
+
     matchesSearch(searchTerm, item) {
         if (item.name.toLowerCase().includes(searchTerm)) {
             return true
@@ -137,7 +142,7 @@ class EncounterCreaturesList extends React.Component {
         let typeFilterIsAll = type === 'all'
         let sizeFilterIsAll = size === 'all'
 
-        this.creatureSummary.forEach(item=>{
+        this.props.creatureSummary.forEach(item=>{
 
             let matchesSearch = this.matchesSearch(searchTerm, item)
             let matchesType = this.matchesFilterType(type, item, typeFilterIsAll)

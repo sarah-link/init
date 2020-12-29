@@ -14,7 +14,7 @@ app.get("/test_table/", async(req, res) => {
     console.log("request received!")
 
     try {
-        const results = await pool.query("SELECT * FROM test_table")
+        const results = await pool.query("SELECT * FROM srd_creature")
 
         res.json(results.rows)
     } catch (err) {
