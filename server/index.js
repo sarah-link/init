@@ -14,21 +14,9 @@ app.get("/creatureList/", async(req, res) => {
     console.log("/creatureList/ request received!")
 
     try {
-        const results = await pool.query("SELECT * FROM srd_creature")
-        let ret = []
-        let rows = results.rows
-        rows.forEach(entry => {
-            let tmpCreature = {
-                name: entry.name,
-                size: entry.size,
-                type: entry.type,
-                hit_points: entry.hit_point_max,
-                challenge_rating: entry.challenge_rating
-            }
-
-            ret.push(tmpCreature)
-        })
-        res.json(ret)
+        let cmd = "SELECT name, size, type, hit_point_max, challenge_rating FROM srd_creature"
+        const results = await pool.query(cmd)
+        res.json(results.rows)
     } catch (err) {
         console.error(err.message)
     }

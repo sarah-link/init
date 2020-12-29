@@ -156,9 +156,9 @@ class EncounterCreaturesList extends React.Component {
                     prevAlpha = item.name.charAt(0)
                     matchingList.push( <CreatureSpacer text={prevAlpha} /> )
                 }
-                matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
+                matchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_point_max} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
             } else {
-                notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_points} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
+                notMatchingList.push( <Creature key={item.name} name={item.name} size={item.size} type={item.type} hit_points={item.hit_point_max} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
             }
 
         })
