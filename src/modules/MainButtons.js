@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import Button from "./Button";
+import InitButton from "./InitButton";
 
 class MainButtons extends React.Component {
     constructor(props) {
@@ -11,13 +11,13 @@ class MainButtons extends React.Component {
         return (
             <div id={"menu-button-wrapper"}>
                 <div className={"menu-buttons"}>
-                    <Button text={"Create Encounter"} className={"main-button"} url={"/builder"} iconClassName={"eva eva-brush-outline"}/>
-                    <Button text={"Saved Encounters"} className={"main-button"} url={"/manager"} iconClassName={"eva eva-bookmark-outline"}/>
+                    <InitButton text={"Create Encounter"} className={"main-button"} url={"/builder"} iconClassName={"eva eva-brush-outline"}/>
+                    <InitButton text={"Saved Encounters"} className={"main-button"} url={"/manager"} iconClassName={"eva eva-bookmark-outline"}/>
                 </div>
 
                 <div className={"menu-buttons"}>
-                    <Button text={"Manage Library"} className={"main-button"} url={"/library"} iconClassName={"eva eva-book-open-outline"}/>
-                    <Button text={"Join Encounter"} className={"main-button"} url={"/join"} iconClassName={"eva eva-play-circle-outline"}/>
+                    <InitButton text={"Manage Library"} className={"main-button"} url={"/library"} iconClassName={"eva eva-book-open-outline"}/>
+                    <InitButton text={"Join Encounter"} className={"main-button"} url={"/join"} iconClassName={"eva eva-play-circle-outline"}/>
                 </div>
             </div>
         )

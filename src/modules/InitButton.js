@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import {Link} from 'react-router-dom'
 
-function Button(props) {
+function InitButton(props) {
     let icon
     if (props.iconClassName) {
         icon = <div className={"button-icon"}><i className={props.iconClassName} /></div>
@@ -14,4 +14,4 @@ function Button(props) {
     )
 }
 
-export default Button;
+export default InitButton;

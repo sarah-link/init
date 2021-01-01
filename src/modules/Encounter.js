@@ -1,8 +1,8 @@
 import React from "react";
-import EncounterCreaturesList from "./EncounterCreaturesList";
+import EncounterCreaturesList from "./encounterBuilderModules/EncounterCreaturesList";
 import {getCreatureIcon, parseCR, displayCR} from "./Utilities";
 import AddedCreature from "./AddedCreature";
-import Button from "./Button";
+import InitButton from "./InitButton";
 
 class Encounter extends React.Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class Encounter extends React.Component {
         }
         return (
             <div id="encounter-wrapper">
-                <EncounterCreaturesList addCreature={this.addCreature} creatureSummary={this.props.creatureSummary}/>
+                <EncounterCreaturesList addCreature={this.addCreature} creatureList={this.props.creatureList}/>
 
                 <div id="encounter-list">
                     <h1>
@@ -53,7 +53,7 @@ class Encounter extends React.Component {
                             Remove All
                         </div>
 
-                        <Button className={"main-button"} id={"advance-button"} iconClassName={"eva eva-arrow-right-outline"} />
+                        <InitButton className={"main-button"} id={"advance-button"} iconClassName={"eva eva-arrow-right-outline"} />
                     </div>
 
                 </div>
