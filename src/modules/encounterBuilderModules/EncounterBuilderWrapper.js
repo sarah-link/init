@@ -1,10 +1,10 @@
 import React from "react";
-import EncounterCreaturesList from "./encounterBuilderModules/EncounterCreaturesList";
-import {getCreatureIcon, parseCR, displayCR} from "./Utilities";
-import AddedCreature from "./AddedCreature";
-import InitButton from "./InitButton";
+import EncounterCreaturesList from "./EncounterCreaturesList";
+import {getCreatureIcon, parseCR, displayCR} from "../Utilities";
+import AddedCreature from "../AddedCreature";
+import InitButton from "../InitButton";
 
-class Encounter extends React.Component {
+class EncounterBuilderWrapper extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,7 +34,7 @@ class Encounter extends React.Component {
                         Add Creatures to
                         <br/>
                         <div>
-                            <input type="text" id="encounterName" defaultValue="Encounter #1"/>
+                            <input type="text" id="encounterName" defaultValue="My Encounter"/>
                         </div>
                     </h1>
 
@@ -128,4 +128,4 @@ class Encounter extends React.Component {
     }
 }
 
-export default Encounter
+export default EncounterBuilderWrapper

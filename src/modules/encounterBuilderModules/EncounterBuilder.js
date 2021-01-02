@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState} from "react";
 import {BrowserRouter as Router} from "react-router-dom";
-import Encounter from "./Encounter";
+import EncounterBuilderWrapper from "./EncounterBuilderWrapper";
 
 function EncounterBuilder (props) {
     const [creatureList, setCreatureList] = useState([])
@@ -8,7 +8,6 @@ function EncounterBuilder (props) {
     const fetchData = async () => {
         const result = await fetch("/creatureList/")
         const jsonData = await result.json()
-
         setCreatureList(jsonData)
     }
 
@@ -19,7 +18,7 @@ function EncounterBuilder (props) {
     return(
         <Router>
             <div className="App-body" id="encounter-body">
-                <Encounter creatureList={creatureList} />
+                <EncounterBuilderWrapper creatureList={creatureList} />
             </div>
         </Router>
     )

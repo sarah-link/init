@@ -62,6 +62,8 @@ class EncounterCreaturesList extends React.Component {
     matchesFilterType(type, item, filterTypeIsAll) {
         if (filterTypeIsAll) {
             return true
+        } else if (item.type === null) {
+            return false
         } else if (item.type.toLowerCase() === type) {
             return true
         } else {
@@ -72,6 +74,8 @@ class EncounterCreaturesList extends React.Component {
     matchesFilterSize(size, item, filterTypeIsAll) {
         if (filterTypeIsAll) {
             return true
+        } else if (item.size === null) {
+            return false
         } else if (item.size === size) {
             return true
         } else {
@@ -114,7 +118,8 @@ class EncounterCreaturesList extends React.Component {
     updateSortFn = (newSortFn) => {
         this.setState({sortFn: newSortFn}, function () {
             this.sortCreatures()
-            this.applyFilters()})
+            this.applyFilters()
+        })
     }
 
     applyFilters() {
@@ -156,7 +161,7 @@ class EncounterCreaturesList extends React.Component {
                 else {
                     if (parseCR(item.challenge_rating) !== prevSpacer) { // add the alphabetical sort spacers if this creature starts with a new letter
                         prevSpacer = parseCR(item.challenge_rating)
-                        matchingList.push( <CreatureSpacer text={"CR " + displayCR(item.challenge_rating)} key={"spacer-" + prevSpacer} /> )
+                        matchingList.push( <CreatureSpacer text={"CR " + displayCR(item.challenge_rating)} /*key={"spacer-" + prevSpacer}*/ /> )
                     }
                 }
                 matchingList.push( <Creature key={item.id} name={item.name} size={item.size} type={item.type} hit_points={item.hit_point_max} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
