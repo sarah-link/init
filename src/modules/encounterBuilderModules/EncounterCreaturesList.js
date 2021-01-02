@@ -9,6 +9,9 @@ class EncounterCreaturesList extends React.Component {
         this.state = {
             matching: [],
             notMatching: [],
+            pinned: [],
+            //TODO: hardcoded
+            idOfPinnedCreatures: ['c265d404-3673-45d8-ab7d-66c2169c1136'],
             sortFn: 'alpha'
         }
 
@@ -16,7 +19,6 @@ class EncounterCreaturesList extends React.Component {
     }
 
     render() {
-    console.log(this.creatureList)
         return (
             <div id={"creature-list-wrapper"}>
                 <div id={"creature-list-search-module"} >
@@ -25,6 +27,9 @@ class EncounterCreaturesList extends React.Component {
 
                 </div>
                 <div id={"creature-list"}>
+                    <div id={"pinned-creature-list"}>
+                        {this.state.pinned}
+                    </div>
                     <div id={"matching-creature-list"}>
                         {this.state.matching}
                     </div>
@@ -40,7 +45,7 @@ class EncounterCreaturesList extends React.Component {
         // re compute list when creatureList is populated
         if (this.props.creatureList !== prevProps.creatureList) {
             this.creatureList = this.props.creatureList
-            this.sortCreatures(this.state.sortFn)
+            this.sortCreatures()
             this.applyFilters()
         }
 
@@ -83,7 +88,11 @@ class EncounterCreaturesList extends React.Component {
         }
         if (parseCR(item.challenge_rating) >= minCR && parseCR(item.challenge_rating) <= maxCR) {
             return true
-        } else {
+        } //add creature if CR is null and not filtering by CR
+        else if (item.challenge_rating === null && (minCR == 0 && maxCR >= 30)) {
+            return true
+        }else {
+            console.log("sorting out " + item.name)
             return false
         }
     }
@@ -112,6 +121,7 @@ class EncounterCreaturesList extends React.Component {
         document.getElementById('creature-list').scrollTop = 0;
         let matchingList = []
         let notMatchingList = []
+        let pinnedList = []
         let prevSpacer = ''
 
         let searchTerm = document.getElementById('creatureSearch').value
@@ -122,20 +132,28 @@ class EncounterCreaturesList extends React.Component {
         let typeFilterIsAll = type === 'all'
         let sizeFilterIsAll = size === 'all'
 
-        this.creatureList.forEach(item=>{
+        // TODO: change this to a cute pin icon
+        pinnedList.push( <CreatureSpacer text={"Pinned " } key={"spacer-pinned"} /> )
 
+        this.creatureList.forEach(item=>{
             let matchesSearch = this.matchesSearch(searchTerm, item)
             let matchesType = this.matchesFilterType(type, item, typeFilterIsAll)
             let matchesCR = this.matchesCRRange(minCR, maxCR, item)
             let matchesSize = this.matchesFilterSize(size, item, sizeFilterIsAll)
 
+
             if (matchesSearch && matchesType && matchesCR && matchesSize) {
-                if (this.state.sortFn === 'alpha') {
+                if (this.state.idOfPinnedCreatures.indexOf(item.id) != -1) {
+                    pinnedList.push( <Creature key={item.id} name={item.name} size={item.size} type={item.type} hit_points={item.hit_point_max} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
+
+                }
+                else if (this.state.sortFn === 'alpha') {
                     if (item.name.charAt(0) !== prevSpacer) { // add the alphabetical sort spacers if this creature starts with a new letter
                         prevSpacer = item.name.charAt(0)
                         matchingList.push( <CreatureSpacer text={prevSpacer} /*key={"spacer-" + prevSpacer}*/ /> )
                     }
-                } else {
+                }
+                else {
                     if (parseCR(item.challenge_rating) !== prevSpacer) { // add the alphabetical sort spacers if this creature starts with a new letter
                         prevSpacer = parseCR(item.challenge_rating)
                         matchingList.push( <CreatureSpacer text={"CR " + displayCR(item.challenge_rating)} key={"spacer-" + prevSpacer} /> )
@@ -147,7 +165,7 @@ class EncounterCreaturesList extends React.Component {
             }
 
         })
-        this.setState({matching: matchingList, notMatching: notMatchingList})
+        this.setState({matching: matchingList, notMatching: notMatchingList, pinned: pinnedList})
     }
 }
 

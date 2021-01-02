@@ -5,7 +5,6 @@ function CreatureFilters(props) {
     const [rSelected, setRSelected] = useState(null);
 
     const buttonClick = (val) => {
-        console.log(val)
         props.updateSortFn(val)
         setRSelected(val)
     }
