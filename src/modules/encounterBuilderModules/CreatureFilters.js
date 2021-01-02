@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 
 function CreatureFilters(props) {
     const [rSelected, setRSelected] = useState(null);
 
     const buttonClick = (val) => {
+        console.log(val)
         props.updateSortFn(val)
         setRSelected(val)
     }
+
+    useEffect(() => {
+        setRSelected(props.sortFn)
+    }, [])
 
     return (
         <div id={"creature-filters"}>

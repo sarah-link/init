@@ -9,7 +9,7 @@ class EncounterCreaturesList extends React.Component {
         this.state = {
             matching: [],
             notMatching: [],
-            sortFn: 'cr'
+            sortFn: 'alpha'
         }
 
         this.creatureList = this.props.creatureList
@@ -21,7 +21,8 @@ class EncounterCreaturesList extends React.Component {
             <div id={"creature-list-wrapper"}>
                 <div id={"creature-list-search-module"} >
                     <input type="text" id="creatureSearch" onChange={() => this.applyFilters()} placeholder="Search..." /><br />
-                    <CreatureFilters applyFilters={() => this.applyFilters()} updateSortFn={() => this.updateSortFn()}/>
+                    <CreatureFilters applyFilters={() => this.applyFilters()} sortFn={this.state.sortFn} updateSortFn={this.updateSortFn}/>
+
                 </div>
                 <div id={"creature-list"}>
                     <div id={"matching-creature-list"}>
@@ -87,11 +88,10 @@ class EncounterCreaturesList extends React.Component {
         }
     }
 
-    sortCreatures(sortFn) {
-        console.log(sortFn)
-        if (sortFn === 'alpha') {
+    sortCreatures() {
+        if (this.state.sortFn === 'alpha') {
             this.creatureList.sort((a, b) => a.name.localeCompare(b.name))
-        } else if (sortFn === 'cr') {
+        } else if (this.state.sortFn === 'cr') {
                 this.creatureList.sort(function(a, b) {
                     if (parseCR(a.challenge_rating) < parseCR(b.challenge_rating)) {
                         return -1
@@ -102,11 +102,10 @@ class EncounterCreaturesList extends React.Component {
         }
     }
 
-    updateSortFn(newSortFn) {
-        console.log(newSortFn)
-        this.setState({sortFn: newSortFn})
-        this.sortCreatures(newSortFn)
-        this.applyFilters()
+    updateSortFn = (newSortFn) => {
+        this.setState({sortFn: newSortFn}, function () {
+            this.sortCreatures()
+            this.applyFilters()})
     }
 
     applyFilters() {
@@ -134,18 +133,17 @@ class EncounterCreaturesList extends React.Component {
                 if (this.state.sortFn === 'alpha') {
                     if (item.name.charAt(0) !== prevSpacer) { // add the alphabetical sort spacers if this creature starts with a new letter
                         prevSpacer = item.name.charAt(0)
-                        matchingList.push( <CreatureSpacer text={prevSpacer} key={"spacer-" + prevSpacer} /> )
+                        matchingList.push( <CreatureSpacer text={prevSpacer} /*key={"spacer-" + prevSpacer}*/ /> )
                     }
                 } else {
                     if (parseCR(item.challenge_rating) !== prevSpacer) { // add the alphabetical sort spacers if this creature starts with a new letter
                         prevSpacer = parseCR(item.challenge_rating)
                         matchingList.push( <CreatureSpacer text={"CR " + displayCR(item.challenge_rating)} key={"spacer-" + prevSpacer} /> )
                     }
-
                 }
-                matchingList.push( <Creature key={item.name} key={item.id} name={item.name} size={item.size} type={item.type} hit_points={item.hit_point_max} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
+                matchingList.push( <Creature key={item.id} name={item.name} size={item.size} type={item.type} hit_points={item.hit_point_max} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
             } else {
-                notMatchingList.push( <Creature key={item.name} key={item.id} name={item.name} size={item.size} type={item.type} hit_points={item.hit_point_max} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
+                notMatchingList.push( <Creature key={item.id} name={item.name} size={item.size} type={item.type} hit_points={item.hit_point_max} challenge_rating={item.challenge_rating} addCreature={this.props.addCreature} />)
             }
 
         })
